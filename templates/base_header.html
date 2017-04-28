@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_modify rest_framework %}
+{% block extrahead %}{{ block.super }}
+{% endblock %}
+{% block extrastyle %}{{ block.super }}
+{% endblock %}
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% block breadcrumbs %}{% if not is_popup %}
+<div class="breadcrumbs">
+     <a href="../../../">{% trans "Home" %}</a> ›
+     <a href="../../">{{ opts.app_label|capfirst|escape }}</a> ›
+     <a href="../">{{ opts.verbose_name_plural|capfirst }}</a> ›
+     <!--<a href="../">{{ opts.verbose_name|capfirst }} #{{ entry.pk }}</a> ›-->
+     {% trans '当前页面' %}</div>
+
+{% endif %}{% endblock %}

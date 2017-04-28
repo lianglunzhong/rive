@@ -1,0 +1,226 @@
+{% extends "template.html" %}
+{% block content %}
+
+<div class="main">
+  <div class="container">
+    <div class="row">
+      <div class=" order-detail" style="background-color:#fff;">
+        <div class="col-xs-12">
+          <div class="place-order" style="padding-right: 0px; background-color: #fff; border-right:none;">
+            <div class="title" data-l10n-id="saddress"></div>
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <style type="text/css">
+                  
+                </style>
+                <div class="col-xs-12">
+                  {% for key, value in shipping_addresses.items %}
+                  <div class="col-xs-6 mb20">
+                      <p class="form-control-static" >{{ value }}</p>
+                      <div>
+                        <div class="col-xs-4"><a href="javascript:void(0);" onclick="shipping_address_edit_show({{ key }})"><i class="fa fa-pencil-square-o mr10" aria-hidden="true"></i><span data-l10n-id="eidt"></span></a></div>
+                        <div class="col-xs-4">
+                          {% if address_count != 1 %}
+                            <a href="{% url 'customer_address_delete' key %}"><i class="fa fa-trash-o mr10" aria-hidden="true"></i><span data-l10n-id="delete"></span></a>
+                          {% endif %}
+                        </div>
+                        {% for key1, value1 in default_address.items %}
+                          {% if key == key1 %}
+                            {% if value1 == False %}
+                              <div class="col-xs-offset-1 col-xs-3"><a href="{% url 'customer_address_setdefault' key customer.id %}" data-l10n-id="setdefault"></a></div>
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="modal-footer tleft">
+                  <button type="button" class="btn btn-primary btn-sm model" data-toggle="modal" data-target="#myModal-rec" style="width: auto;"><i class="fa fa-plus mr10" aria-hidden="true"></i><span data-l10n-id="add"></span></button>
+                  <!-- <button type="submit" class="btn btn-primary btn-sm" data-l10n-id="ok"></button> -->
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+
+
+<!--新增地址弹窗 -->
+<div class="modal fade" id="myModal-rec" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="addaddress"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal address loginform" action="{% url 'customer_address_handle' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="type" value="customer_address_add">
+          <input type="hidden" name="customer_id" value="{{ customer.id }}">
+          <div class="form-group mb15">
+            <label for="inputEmail3" class="col-sm-5 control-label" data-l10n-id="shippingcountry">:</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Country" name="country">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingstate"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="State" name="state">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingcity"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="City" name="city">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shipping_address"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Address" name="address">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingzip"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Zip" name="czip">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingphone"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Home Phone" name="phone">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingmobile"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Mobile" name="mobile">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <button type="submit" class="btn btn-primary btn-sm" data-l10n-id="ok"></button>
+          </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+</div> 
+
+
+<!-- 编辑地址弹窗 -->
+<div class="modal fade" id="myModal-rec-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="editaddress"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal address" action="{% url 'customer_address_handle' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="type" value="customer_address_edit">
+          <input type="hidden" id="edit_address_id" name="address_id">
+          <div class="form-group mb15">
+            <label for="inputEmail3" class="col-sm-5 control-label" data-l10n-id="shippingcountry"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Country" name="country" id="shipping_country_edit">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingstate"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="State" id="shipping_state_edit" name="state">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingcity"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="City" id="shipping_city_edit"  name="city">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shipping_address"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Address" id="shipping_address_edit" name="address">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingzip"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="shipping_zip_edit" placeholder="Zip" name="czip">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingphone"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="shipping_phone_edit"  placeholder="Home Phone" name="phone">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingmobile"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="shipping_mobile_edit" placeholder="Mobile" name="mobile">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="shipping_address_edit_cannel" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <button type="submit" class="btn btn-primary btn-sm" data-l10n-id="ok"></button>
+          </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+</div> 
+
+<script type="text/javascript">
+  /*
+   *编辑shipping_address,触发弹窗，并通过ajax赋值
+   */
+  function shipping_address_edit_show(address_id) {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var recipe = {};
+    recipe['type'] = 'shipping_address_edit_show';
+    recipe['address_id'] = address_id;
+
+    $.ajax({
+      type: 'POST',
+      data: recipe,
+      url: "{% url 'order_address_edit' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        if(data['result'] && data['result'] == 1) {
+          $("#shipping_country_edit").val(data['shipping_country']);
+          $("#shipping_state_edit").val(data['shipping_state']);
+          $("#shipping_city_edit").val(data['shipping_city']);
+          $("#shipping_zip_edit").val(data['shipping_zip']);
+          $("#shipping_phone_edit").val(data['shipping_phone']);
+          $("#shipping_mobile_edit").val(data['shipping_mobile']);
+          $("#shipping_address_edit").val(data['shipping_address']);
+          $("#edit_address_id").val(address_id);
+        }
+          // $("#shipping_address_edit_cannel").click();
+      },
+      error:function(){
+        alert('false !');
+      },
+    });
+
+    $("#myModal-rec-edit").modal('show');
+
+  };
+</script>
+
+{% endblock %}
+

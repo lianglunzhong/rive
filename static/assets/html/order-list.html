@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-1.8.2.min.js"></script>
+    <!-- L20n setup -->
+    <script src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    function setLang (lang) {
+      $.cookie('lang', lang)
+      window.location.reload()
+    }
+    var lang = $.cookie('lang') || 'en-US';
+    document.write("<link rel='localization' href='../locales/"+lang+".json'>")
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="../js/l20n.js"></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="list-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="logo"><a href=""><img src="../images/logo.png" alt=""></a></div>
+            </div>
+            <div class="col-xs-6">
+              <ul class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="#" data-l10n-id="products"></a></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderlist"></a><span class="badge">42</span></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderhistory"></a></li>  
+              </ul>
+            </div>
+            <div class="col-xs-2 welcome">
+              <div class="drop-down cs-show">
+                <div class="drop-down-hd">
+                  <div class="fll mr10" data-l10n-id="wel"></div>Luca!
+                  <i class="fa fa-caret-down flr"></i>
+                </div>
+                <ul class="drop-down-list cs-list">
+                  <li class="drop-down-option">
+                    <a href="">change password</a>
+                  </li>
+                  <li class="drop-down-option">
+                    <a href="">sign out</a>
+                  </li>
+                   
+                </ul>
+              </div>
+              <!-- <div class="fll mr10" data-l10n-id="wel"></div><div class="fll">Luca!</div><a href=""><i class="fa fa-sign-out" aria-hidden="true"></i></a> -->
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="main">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 pro-table">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th style="width:4%"><input class="allCheck" type="checkbox"></th>
+                    <th style="width:10%" data-l10n-id="select"></th>
+                    <th style="width:18%;text-align:left" data-l10n-id="proinfo"></th>
+                    <th style="width:10%" data-l10n-id="ref"> </th>
+                    <th style="width:18%;text-align:left" data-l10n-id="details"></th>
+                    <th style="width:8%" data-l10n-id="stock"></th>
+                    <th style="width:12%" data-l10n-id="price"></th>
+                    <th style="width:12%" data-l10n-id="quantity"></th>
+                    <th style="width:8%" data-l10n-id="add"> </th>
+                  </tr>
+                </thead>
+                <tbody id="checkList">
+                  <tr>
+                    <td><input type="checkbox" value="1"></td>
+                    <td><a data-toggle="modal" data-target="#myModa2" href="javascript:void(0)"><img src="../images/367225.jpg" alt="" class="img-thumbnail"></a></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">
+                      <span>Here is desciption of this product It could not be too longHere is desciption of this product It could not be too longHere is desciption of this product It could not be too long</span>
+                      <a href="#" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="Here is desciption of this product It could not be too longHere is desciption of this product It could not be too longHere is desciption of this product It could not be too long">view more</a>
+                      
+
+                    </td>
+                    <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <a class="minus" href="javascript:void(0)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                        <input type="text" class="form-control JS-qty" id=""  value="1">
+                      <a class="plus" href="javascript:void(0)"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                    </td>
+                    <td><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="2"></td>
+                    <td><img src="../images/367225.jpg" alt="" class="img-thumbnail"></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">Here is desciption of this product It could not be too long</td>
+                    <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-plus-circle add" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="3"></td>
+                    <td><img src="../images/367225.jpg" alt="" class="img-thumbnail"></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">
+                      <span>Here is desciption of this ciption of this product It could not be too longHere is desciption of this product It could not be too long</span>
+                      <a href="#" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="Here is desciption of thire is desciption of this product It could not be too longHere is desciption of this product It could not be too long">view more</a>
+                    </td>
+                    <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="4"></td>
+                    <td><img src="../images/367225.jpg" alt="" class="img-thumbnail"></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">Here is desciption of this product It could not be too long</td>
+                    <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="5"></td>
+                    <td><img src="../images/367225.jpg" alt="" class="img-thumbnail"></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">Here is desciption of this product It could not be too long</td>
+                    <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="6"></td>
+                    <td><img src="../images/367225.jpg" alt="" class="img-thumbnail"></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">Here is desciption of this product It could not be too long</td>
+                    <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-plus-circle add" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="7"></td>
+                    <td><a data-toggle="modal" data-target="#myModa2" href="javascript:void(0)"><img src="../images/367225.jpg" alt="" class="img-thumbnail"></a></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">Here is desciption of this product It could not be too long</td>
+                    <td><i class="fa fa-circle out" aria-hidden="true"></i>
+                    <span class="in-stock out">expected in-stock date:<br>2017-07-12</span></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-plus-circle add" aria-hidden="true"></i></td>
+                  </tr>
+                  <tr>
+                    <td><input type="checkbox" value="8"></td>
+                    <td><a data-toggle="modal" data-target="#myModa2" href="javascript:void(0)"><img src="../images/367225.jpg" alt="" class="img-thumbnail"></a></td>
+                    <td class="t-left info">sweat capuche zip noir aqua L</td>
+                    <td>67 04 07</td>
+                    <td class="t-left details">Here is desciption of this product It could not be too long</td>
+                    <td><i class="fa fa-exclamation-circle" aria-hidden="true"></i></td>
+                    <td>23.00 €</td>
+                    <td>
+                      <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                        <input type="text" class="form-control" id="" placeholder="0">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    </td>
+                    <td><i class="fa fa-plus-circle add" aria-hidden="true"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="pag">
+                <div class="col-xs-2">
+                  <input type="checkbox"><span data-l10n-id="selectall"></span>            
+                </div>
+                <div class="col-xs-6 delete">
+                  <a href=""><i class="fa fa-minus-circle" aria-hidden="true"></i><span data-l10n-id="dellist"></span></a>
+                  <a href=""><i class="fa fa-minus-circle" aria-hidden="true"></i><span data-l10n-id="delout"></span></a>
+                </div>
+                <div class="col-xs-4 add" style="margin-top:0px;">
+                  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" data-l10n-id="process"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+      <footer class="footer">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="country">
+                <a onclick="setLang('en-US')" href="javascript:void(0);"><img src="../images/EN.jpg" alt=""></a>
+                <a onclick="setLang('fr')" href="javascript:void(0);"><img src="../images/FA.jpg" alt=""></a>
+                <a onclick="setLang('uk')" href="javascript:void(0);"><img src="../images/UK.jpg" alt=""></a>
+                <a onclick="setLang('de')" href="javascript:void(0);"><img src="../images/GE.jpg" alt=""></a>
+              </div>
+              <div class="contant ft2">
+                <a class="under" href="" data-l10n-id="back"></a>
+                <a class="download" href="" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer> 
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+          </div>
+          <div class="modal-body">
+            <p data-l10n-id="modalbody"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <button type="button" class="btn btn-primary btn-sm" data-l10n-id="ok"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade " id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          </div>
+          <div id="slider">
+            <ul class="slides clearfix">
+              <li><img class="responsive" src="../images/img/1.jpg"></li>
+              <li><img class="responsive" src="../images/img/2.jpg"></li>
+              <li><img class="responsive" src="../images/img/3.jpg"></li>
+              <li><img class="responsive" src="../images/img/4.jpg"></li>
+            </ul>
+            <ul class="controls">
+              <li><img src="../images/img/prev.png" alt="previous"></li>
+              <li><img src="../images/img/next.png" alt="next"></li>
+            </ul>
+            <ul class="paginations">
+              <li class="active"></li>
+              <li></li>
+              <li></li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(function() {
+        $("#slider").easySlider( {
+          slideSpeed: 500,
+          paginationSpacing: "15px",
+          paginationDiameter: "12px",
+          paginationPositionFromBottom: "20px",
+          slidesClass: ".slides",
+          controlsClass: ".controls",
+          paginationClass: ".paginations"          
+        });
+      });
+    </script>
+	</body>
+  <script src="../js/common.js"></script>  
+  <script src="../js/modal.js"></script>
+  <script src="../js/plugin.js"></script>
+  <script src="../js/easySlider.js"></script>
+  <script src="../js/tooltip.js"></script>
+  <script src="../js/popover.js"></script>
+  <script>
+  $(function () {
+    $('.js-popover').popover()
+  })
+  </script>
+</html>

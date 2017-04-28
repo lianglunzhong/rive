@@ -1,0 +1,760 @@
+{% extends "template.html" %}
+{% block content %}
+
+<div class="main">
+  <div class="search-bar">
+    <div class="container">
+      <div class="row">
+          <div class="pro-se">
+            <div class="col-xs-3">
+              <form class="search" method="post" action="{% url 'products' %}" style="width: 250px;">
+                {% csrf_token %}
+                <div class="form-group">
+                  <input type="hidden" name="type" value="product_search">
+                  {% if search_word %}
+                    <input type="text" name="search_word" class="form-control" placeholder="{{ search_word }}">
+                  {% else %}
+                    <input type="text" name="search_word" class="form-control" placeholder="Ref, product name">
+                  {% endif %}
+                </div>
+                <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+              </form>
+            </div>
+            <div class="col-xs-3" style="margin-top:20px;padding-left: 0px;padding-right: 0px;">
+              <form action="{% url 'products' %}" method="post">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="catelog_search">
+                <span data-l10n-id="category"></span> <select name="catelog_id" onchange="catelog_search_select()" class="form-control" style="display:inline-block;width:180px;height:auto;color:#999">
+                  <option value=""></option>
+                  {% for catelog in catalogs %}
+                    {% if catelog.id == category_id %}
+                      <option value="{{ catelog.id }}" selected = "selected">{{ catelog.name }}</option>
+                    {% else %}
+                      <option value="{{ catelog.id }}">{{ catelog.name }}</option>
+                    {% endif %}
+                  {% endfor %}
+                  </select>
+                  <button type="submit" id="catelog_search_submit" style="display: none;">submit</button>
+                </form>
+            </div>  
+            <div class="col-xs-3 upload">
+              <div class="drop-down cs-show" style="width: 260px; float: right;">
+                <div class="drop-down-hd"> 
+                  <span style="color: black; margin-right: -45px;" data-l10n-id="createorderby"></span>
+                  <i class="fa fa-caret-down" style="color:black;line-height: 1.6;"></i>
+                </div>
+                <ul class="drop-down-list cs-list">
+                  <li class="drop-down-option">
+                    <form enctype="multipart/form-data" method="post" action="{% url 'upload_pic_order' %}">
+                    {% csrf_token %}
+                      <input type="hidden" name="type" value="upload_pic_order">
+                      <a href="javascript:void(0);" onclick="upload_pic_a()" ><span data-l10n-id="uppic"></span></a>
+                      <input type="file" id="upload_pic" name="upload_image" style="display: none;" accept="image/jpeg,image/jpg,image/png"/>
+                      <button type="submit" style="display: none;" id="upload_pic_btn"></button>
+                    </form>
+                  </li>
+                  <li class="drop-down-option">
+                    <form enctype="multipart/form-data" method="post" action="{% url 'upload_list_order' %}">
+                    {% csrf_token %}
+                      <input type="hidden" name="type" value="upload_list_order">
+                      <a href="javascript:void(0);" onclick="upload_list_a()"><span data-l10n-id="uplist"></span></a>
+                      <input type="file" id="upload_list"  name="upload_list" style="display: none;" accept="text/csv" />
+                      <button type="submit" style="display: none;" id="upload_list_btn"></button>
+                    </form>
+                  </li>
+                  <li class="drop-down-option">
+                    <a href="/static/downloadfiles/Ref_qty.csv" style="text-decoration:underline;"><span data-l10n-id="downtemplate"></span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-xs-3 add">
+              <button onclick="add_all_to_order()" type="button" class="btn btn-primary btn-sm" data-l10n-id="addorder"></button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 pro-table">
+        <!--用户id获取-->
+        <input type="hidden" id="customer_id" value="{{ customer.id }}">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th style="width:4%"><input class="allCheck" type="checkbox" onchange="count_checked()"></th>
+              <th style="width:10%" data-l10n-id="select"></th>
+              <th style="width:12%;text-align:left" data-l10n-id="proinfo"></th>
+              <th style="width:10%" data-l10n-id="ref"></th>
+              <th style="width:24%;text-align:left" data-l10n-id="details"></th>
+              <th style="width:8%" data-l10n-id="stock"></th>
+              <th style="width:12%" data-l10n-id="price"></th>
+              <th style="width:12%" data-l10n-id="quantity"></th>
+              <th style="width:8%" data-l10n-id="action"></th>
+            </tr>
+          </thead>
+          <tbody id="checkList">
+            {% if products %}
+              {% for product in products%}
+              <tr>
+                <td><input type="checkbox" value="{{ product.id }}" onchange="count_checked()"></td>
+                {% for key, value in images.items %}
+                  {% if key == product.id %}
+                      {%if value %}
+                        <td><a onclick="image_view_a2({{ product.id }})" href="javascript:void(0)"><img src="/site_media/{{ value }}" alt="" class="img-thumbnail" onerror="this.src='/static/assets/images/no_picture.png'"></a><a style="display: none;" id="image_view_btn{{ product.id }}" data-toggle="modal" data-target="#image_views"></a></td>
+                      {% else %}
+                        <td><a href="javascript:void(0)"><img src="/static/assets/images/no_picture.png" alt="" class="img-thumbnail"></a></td>
+                      {% endif %}
+                  {% endif %}
+                {% endfor %}
+                <!-- <td style="text-align:left;line-height: 24px;max-height: 84px;overflow: hidden;display: inline-block;"> -->
+                <td style="text-align:left;">
+                  {{ product.name }}
+                </td>
+                <td>{{ product.sku }}</td>
+                <td class="t-left details">
+                  {% for key, value in product_descriptions.items%}
+                    {% if key == product.id %}
+                      <span id="product_description_{{ product.id }}">{{ value }}</span>
+                      <div id="product_description_a_{{ product.id }}" style="display: none;">
+                        ......
+                        <a href="javascript:void(0)" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" title="Details" data-content="{{ value }}" data-l10n-id="viewmore"></a>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </td>
+                {% for key, value in stocks.items %}
+                  {% if key == product.id %}
+                    {% if value == 1 %}
+                      <td><a href="javascript:void(0)" title="{{ in_stock_title }}"><i class="fa fa-circle" aria-hidden="true"></i></a></td>
+                    {% elif value == 2 %}
+                      <td>
+                        <a href="javascript:void(0)" title="{{ in_stock_title }}"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                        <span style="font-size: 12px;line-height: initial;background: #f5f5f5;color: #666;display: inline-block;"><span data-l10n-id="deliverydate"></span><br>{{ est_date }}</span>
+                      </td>
+                    {% else %}
+                      {% if product.expected_time %}
+                        {% for product_id, time in expected_times.items %}
+                          {% if product_id == product.id %}
+                            {% if lang == 'fr' %}
+                              <td> <a href="javascript:void(0)" title="Qté limité ou en rupture&#10;Date d'arrivage estimée：{{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a></td>
+                            {% elif lang == 'de' %}
+                              <td> <a href="javascript:void(0)" title="Begrenzte oder ausverkaufte Menge&#10; Versand fertig：{{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a></td>
+                            {% elif lang == 'nl' %}
+                              <td> <a href="javascript:void(0)" title="limited or out of stock&#10;expected in-stock date：{{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a></td>
+                            {% else %}
+                              <td> <a href="javascript:void(0)" title="limited or out of stock&#10;expected in-stock date：{{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a></td>
+                            {% endif %}
+                            
+                          {% endif %}
+                        {% endfor %}
+                      {% else %}
+                        <td>
+                          {% if lang == 'fr' %}
+                            <a href="javascript:void(0)" title="Qté limité ou en rupture"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                          {% elif lang == 'de' %}
+                            <a href="javascript:void(0)" title="Begrenzte oder ausverkaufte Menge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                          {% elif lang == 'nl' %}
+                            <a href="javascript:void(0)" title="limited or out of stock"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                          {% else %}
+                            <a href="javascript:void(0)" title="limited or out of stock"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                          {% endif %}
+                        </td>
+                      {% endif %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+                
+                {% for key, value in final_price.items %}
+                  {% if key == product.id %}
+                    <td>
+                      <div>{{ value.price }} {{ code }}</div>
+                        <span style="font-size: 12px;line-height: initial;color: #999;display: inline-block;">
+                          {% if value.ssp != '0.00' %}
+                            SSP:{{ value.ssp }} {{ code }}
+                          {% endif %}
+                          {% if value.rrp != '0.00' %}
+                            <br>RRP:{{ value.rrp }} {{ code }}
+                          {% endif %}
+                        </span>
+                    </td>
+                  {% endif %}
+                {% endfor %}
+                <td>
+                  <a href="javascript:void(0)" onclick="minus({{ product.id }})"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                    <input type="text" class="form-control JS-qty" id="product_{{ product.id }}"  value="1">
+                  <a  href="javascript:void(0)" onclick="plus({{ product.id }})"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                </td>
+                <td>
+                {% if lang == 'fr' %}
+                  <a href="javascript:void(0)" title="ajouter au panier" onclick="add_one_to_order({{ product.id }})"><i class="fa fa-plus-circle add" aria-hidden="true" style="margin-top: 4.5px;"></i></a>
+                {% elif lang == 'de' %}
+                  <a href="javascript:void(0)" title="Hinzufügen Sie im Warenkorb" onclick="add_one_to_order({{ product.id }})"><i class="fa fa-plus-circle add" aria-hidden="true" style="margin-top: 4.5px;"></i></a>
+                {% elif lang == 'nl' %}
+                  <a href="javascript:void(0)" title="Add to Order list" onclick="add_one_to_order({{ product.id }})"><i class="fa fa-plus-circle add" aria-hidden="true" style="margin-top: 4.5px;"></i></a>
+                {% else %}
+                  <a href="javascript:void(0)" title="Add to Order list" onclick="add_one_to_order({{ product.id }})"><i class="fa fa-plus-circle add" aria-hidden="true" style="margin-top: 4.5px;"></i></a>
+                {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+              <tr><table data-l10n-id="searchnotfound"></table></tr>
+              <br><br><br><br><br>
+            {% endif %}
+          </tbody>
+        </table>
+        {% if products %}
+          <div class="pag">
+            <div class="col-xs-2" style="padding-top: 5px;">
+              <input class="allCheck" id='selectall1' type="checkbox" onchange="count_checked()"><label for='selectall1' style="cursor: pointer;font-weight: normal;" data-l10n-id="selectall"></label>                 
+            </div>
+            <div class="col-xs-5" style="padding-left: 0px;padding-right: 0px;">
+              <nav>
+                <!-- <input type="hidden" id="page_id" name="page_id" value="{{ page_id }}"> -->
+                <!-- <input type="hidden" id="total_page" name="total_page" value="{{ total_page }}"> -->
+                <div class="M-box1"></div>
+                <!--搜索分类时的分类名称，用于分页 -->
+                <!-- <input type="hidden" id="category_id" value="{{ category_id }}"> -->
+                <!--搜索时的关键字，用于分页 -->
+                <input type="hidden" id="search_word_for_page" value="{{ search_word }}">
+             </nav>
+            </div>
+            <div class="col-xs-2" style="padding-top: 5px; padding-left: 0px;padding-right: 0px;">
+              <li style="float: left; list-style-type:none;"><span data-l10n-id="choseditem"></span><span id="count_checked_num">&nbsp;0</span></li>         
+            </div>
+            <div class="col-xs-3 add" style="margin-top:0px;">
+              <button onclick="add_all_to_order()" type="button" class="btn btn-primary btn-sm" data-l10n-id="addorder"></button>
+            </div>
+          </div>
+        {% endif %}
+        <div style="display: none;" id="message_output" class="message_outbox">  
+          <div class="message_content"><br><label><span data-l10n-id="addsuccessmessage"></span></label></div>  
+        </div>
+    </div>
+  </div>    
+</div>
+
+
+<!--图片弹窗（新） -->
+<a data-toggle="modal" data-target="#myModa2" href="javascript:void(0)" id="test_model" style="display: none;">test</a>
+<div class="modal fade " id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      </div>
+      <div id="slider">
+        <style>
+          .m-info{background-color: #fafafa; line-height: 30px;color:#aaa; padding:15px;}
+          .m-info .col-xs-6 span,.m-info .col-xs-12 span{color:#333; padding-left:10px;}
+        </style>
+        <div id="slides_clearfix">
+          <ul class="slides clearfix" style="position: relative;width: 100%;">
+            <li>
+              <img class="responsive" src="/static/assets/images/img/1.jpg">
+              <div class="m-info">
+                <div class="row">
+                  <div class="col-xs-6"><em data-l10n-id="ref2"></em><span> 11 89 22</span></div>
+                  <div class="col-xs-6"><em data-l10n-id="price2"></em><span>125.6€</span></div>
+                  <div class="col-xs-12"><em data-l10n-id="productname2"></em><span>ST8 HSP D36 INFERNO CHARIOT + ACCESS</span></div>
+                  <div class="col-xs-12"><em data-l10n-id="details2"></em><span>OPEN ST-HSP PACK MANGO / NOIR TAV C T AMOV ELEPHANT N/MANGO</span></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <ul class="controls" id='image_controls' style="display: none;">
+          <li style="top:260px;"><img src="/static/assets/images/img/prev.png" alt="previous"></li>
+          <li style="top:260px;"><img src="/static/assets/images/img/next.png" alt="next"></li>
+        </ul>
+        <!-- <ul class="paginations" style="bottom:0">
+          <li class="active"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul> -->
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $("#slider").easySlider( {
+      slideSpeed: 500,
+      paginationSpacing: "15px",
+      paginationDiameter: "12px",
+      paginationPositionFromBottom: "20px",
+      slidesClass: ".slides",
+      controlsClass: ".controls",
+      paginationClass: ".pagination"          
+    });
+  });
+</script>
+
+
+<!-- 请选择产品提示认弹窗 -->
+<a href="javascript:void(0)" id="place_select_product_model" data-toggle="modal" data-target="#place_select_product" style="display: none;"></a>
+<div class="modal fade" id="place_select_product" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="seleteproduct"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 不能添加产品数量为0到购物车弹窗提示 -->
+<a href="javascript:void(0)" id="cannot_add_qty_model" data-toggle="modal" data-target="#cannot_add_qty" style="display: none;"></a>
+<div class="modal fade" id="cannot_add_qty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="cannotaddqty"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--页面所有产品id -->
+<input type="hidden" id="product_ids" value="{{ product_ids }}">
+<script>
+  $(function () {
+    $('.js-popover').popover();
+  })
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    //获取购物车里面所有产品id
+    var product_ids = $("#product_ids").val();
+    //把字符串转化为数组
+    product_ids = product_ids.split(',');
+
+    $.each(product_ids, function(k,v){
+      var description = $("#product_description_"+v).html();
+      if(description && description.length > 100){
+        $("#product_description_a_"+v).show();
+      }
+    });
+  });
+</script>
+
+<!--分页表单提交的数据-->
+<div style="display: none;">
+  <form method="post" action="{% url 'products_page' 1 %}" id="page_form">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="product_page">
+    <input type="hidden" id="page_id" name="page_id" value="{{ page_id }}">
+    <input type="hidden" id="total_page" name="total_page" value="{{ total_page }}">
+    <input type="hidden" id="category_id" name="category_id" value="{{ category_id }}">
+    <input type="hidden" id="search_word_for_page" name="search_word_for_page" value="{{ search_word }}">
+    <button type="submit" id="page_form_submit">submit</button>
+  </form>
+</div>
+
+<!-- 分页 -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+      });
+
+      var page_id = $("#page_id").val();
+      var total_page = $("#total_page").val();
+      //分类搜索的分类名称search_catagory
+      // var category_id = $("#category_id").val();
+      // var search_word = $("#search_word_for_page").val();
+      var category_id = '';
+
+    $('.M-box1').pagination({
+        totalData: total_page,
+        showData: 10,
+        coping: true,
+        current: page_id,
+        count: 2,
+        callback:function(api){
+          var current_page_id = api.getCurrent();
+          // if(page_id){
+            // if(category_id){
+            //   window.location.href = '/products/page_'+page_id+'/'+category_id;
+            // }else{
+            //   window.location.href = '/products/page_'+page_id;
+            // }
+          // }else{
+            // if(category_id){
+            //   window.location.href = '/products/page_2/'+category_id;
+            // }else{
+            //   window.location.href = '/products/page_2';
+            // }
+          // }
+            if(current_page_id){
+              $("#page_id").val(current_page_id);
+              var url = "/products/page_"+current_page_id;
+              $("#page_form").attr("action", url);
+              $("#page_form_submit").click();
+            }else{
+              $("#page_id").val(2);
+              $("#page_form_submit").click();
+            }
+        },
+    });
+  });
+</script>
+
+
+<script type="text/javascript">
+  $(function(){
+    $("#upload_pic").change(function(){
+      // var file = $(this).get(0);
+      var file = document.getElementById("upload_pic");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one picture.");
+        return false;
+      }
+      var type = fileobj[0].type;
+      if(type.indexOf('image') == -1){
+        alert("Can only upload picture.");
+        return false;
+      }
+      var size = parseInt(fileobj[0].size);
+      var max_size = parseInt(5*1024*1024);
+      if(size > max_size){
+        alert("The size of picture can not exceed 5M");
+        return false;
+      }
+      $("#upload_pic_btn").click();
+    });
+  });
+
+  $(function(){
+    $("#upload_list").change(function(){
+      var file = document.getElementById("upload_list");
+      var fileobj = file.files;
+      console.log(fileobj);
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      $("#upload_list_btn").click();
+    });
+  });
+</script>
+
+
+<script type="text/javascript">
+  /*
+   *统计选中个数
+   */
+  function count_checked(){
+    //获取勾选的cartitem id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    });
+
+    var num = checkVal.length;
+
+    $("#count_checked_num").html("&nbsp;"+num);
+  };
+
+  /*
+   *产品页添加单个产品到order_list ajax
+   */
+  function add_one_to_order(product_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+    var type = 'add_one_to_orderlist';
+    var customer_id = $("#customer_id").val();
+    var qty = $("#product_"+product_id).val();
+    if(qty <= 0){
+      // alert('Can not add to order list with qty = 0 !');
+      $("#cannot_add_qty_model").click();
+    }else{
+      $.ajax({
+        type: 'POST',
+        data: {type:type,product_id:product_id,customer_id:customer_id,qty:qty},
+        url: "{% url 'add_to_order_ajax' %}",
+        cache: false,
+        dataType: 'html',
+        success:function(data){
+          var data = $.parseJSON(data);
+          if(data.result == 'success'){
+            if(data.number != 0){
+              var num = document.getElementById('order_list_number').innerHTML;
+              num = parseInt(num) + parseInt(data.number);
+              $("#order_list_number").html(num);
+            }
+            $("#message_output").show().delay (1500).fadeOut();
+          }else{
+            alert('add false !')
+          }
+        },
+        error:function(){
+          alert('false');
+        }
+      });
+    } 
+  };
+
+  /*
+   *产品页添加所有勾选的产品到order_list ajax
+   */
+  function add_all_to_order(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    //获取勾选的产品id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    })
+    if(checkVal && checkVal.length > 0){
+      //获取勾选的产品id所对应的数量
+      var qtys = {};
+      $.each(checkVal,function(i){
+        qtys[checkVal[i].toString()] = $("#product_"+checkVal[i]).val().toString();
+      });
+
+      //判断数量里面是否有为0为负数的产品
+      var qty_val = [];
+      var qty_result = 1
+      $.each(qtys, function(k,v){
+        qty_val.push(v);
+        if(parseInt(v) <= 0){
+          qty_result = 0;
+        }
+      });
+      var qty_error = $.inArray("0",qty_val);
+      if(qty_result == 1){
+        var recipe = {}
+        recipe['type'] = 'add_all_to_orderlist';
+        recipe['customer_id'] = $("#customer_id").val();
+        //把字段对象转化为json字符串
+        recipe['products'] = JSON.stringify(qtys);
+        $.ajax({
+          type: 'POST',
+          data: recipe,
+          // data: {type:type,customer_id:customer_id,qtys:qtys},
+          url: "{% url 'add_to_order_ajax' %}",
+          cache: false,
+          dataType: 'json',
+          success:function(data){
+            // var data = $.parseJSON(data);
+            if(data.result == 'success'){
+              if(data.number != 0){
+                var num = document.getElementById('order_list_number').innerHTML;
+                num = parseInt(num) + parseInt(data.number);
+                $("#order_list_number").html(num);
+              }
+              $("#message_output").show().delay (1500).fadeOut();
+            }else{
+              alert('add false !')
+            }
+          },
+          error:function(){
+            alert('Add to order list false !');
+          },
+        });
+      }else{
+        // alert('Can not add to order list with qty = 0 !');
+        $("#cannot_add_qty_model").click();
+      }
+    }else{
+      // alert('Please choose products !')
+      $("#place_select_product_model").click();
+    }
+  };
+
+
+  /*
+   *点击产品图片浏览大图及ajax获取该产品所有图片
+   */
+  function image_view_a(product_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var dict = {};
+    dict['type'] = 'product_image_view';
+    dict['product_id'] = product_id;
+
+    $.ajax({
+      type: 'post',
+      data: dict,
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        var images = data.images;
+        var image_detail = '';
+        var image_page = "<li class='active'></li>"
+        var len = images.length;
+        var li_width = 100/len;
+        $.each(images, function(k,v){
+          image_detail += "<li style='width: "+li_width+"%; float: left;'><img class='responsive' src='/site_media/"+v+"'></li>";
+          if(k>=1){
+            image_page += "<li></li>";
+          }
+        });
+        var ul_width = 100*len + "%";
+        $("#slider_images").width(ul_width);
+        $("#slider_images").html(image_detail);
+        $("#slider_images_page").html(image_page);
+        if(len<=1){
+          $("#slider_images").css({ right:"0%" });
+          // $("#slider_image_foot").html('');
+        };
+        $("#slider").easySlider( {
+          slideSpeed: 500,
+          paginationSpacing: "15px",
+          paginationDiameter: "12px",
+          paginationPositionFromBottom: "20px",
+          slidesClass: ".slides",
+          controlsClass: ".controls",
+          paginationClass: ".pagination"          
+        });
+        $("#image_view_btn"+product_id).click();
+      },
+      error:function(){
+        alert('false !');
+      }
+    });
+  };
+
+
+  /*
+   *点击产品图片浏览大图及ajax获取该产品图片(新)
+   */
+  function image_view_a2(product_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var dict = {};
+    dict['type'] = 'product_image_view';
+    dict['product_id'] = product_id;
+    dict['customer_id'] = $('#customer_id').val();
+
+    $.ajax({
+      type: 'post',
+      data: dict,
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        // $('#test_model').click();
+        $('#slides_clearfix').empty();
+        $('#slides_clearfix').append(data.images_info);
+
+        if(data.images_count > 1){
+          $('#image_controls').show();
+        }else {
+          $('#image_controls').hide();
+        }
+
+        $('#test_model').click();
+      },
+      error:function(){
+        alert('false !');
+      }
+    });
+  };
+
+  /*
+   *上传图片生成订单a链接
+   */
+  function upload_pic_a(){
+    $("#upload_pic").click();
+  };
+
+
+  /*
+   *上传表格list生成订单a链接
+   */
+  function upload_list_a(){
+    $("#upload_list").click();
+  };
+
+
+  /*
+   *分类筛选触发表单提交
+   */
+  function catelog_search_select(){
+    $("#catelog_search_submit").click();
+  };
+
+</script>
+
+
+<!--  <script type="text/javascript">
+  $(document).ready(function () {
+      $("#upload_pic").change(function () {
+          var filepath = $("input[name='upload_image']").val();
+          var extStart = filepath.lastIndexOf(".");
+          var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+          if (ext != ".BMP" && ext != ".PNG" && ext != ".GIF" && ext != ".JPG" && ext != ".JPEG") {
+              alert("图片限于bmp,png,gif,jpeg,jpg格式");
+              $("#fileType").text("")
+              $("#fileSize").text("");
+              return false;
+          } else { $("#fileType").text(ext) }
+          var file_size = 0;
+          if ($.browser.msie) {
+              var img = new Image();
+              img.src = filepath;
+              while (true) {
+                  if (img.fileSize > 0) {
+                      if (img.fileSize > 3 * 1024 * 1024) {
+                          alert("图片不大于100MB。");
+                      } else {
+                          var num03 = img.fileSize / 1024;
+                          num04 = num03.toFixed(2)
+                          $("#fileSize").text(num04 + "KB");
+                      }
+                      break;
+                  }
+              }
+          } else {
+              file_size = this.files[0].size;
+              var size = file_size / 1024;
+              if (size > 10240) {
+                  alert("上传的图片大小不能超过10M！");
+              } else {
+                  var num01 = file_size / 1024;
+                  num02 = num01.toFixed(2);
+                  $("#fileSize").text(num02 + " KB");
+              }
+          }
+          return true;
+      });
+  });
+</script> -->
+
+
+{% endblock %}

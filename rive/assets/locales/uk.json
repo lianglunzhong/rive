@@ -1,0 +1,12 @@
+{
+	"locales": [
+		"en-US",
+		"fr",
+		"de",
+		"uk"
+	],
+	"default_locale": "uk",
+	"resources": [
+		"./{{locale}}.l20n"
+	]
+}

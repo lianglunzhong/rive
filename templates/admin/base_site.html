@@ -1,0 +1,649 @@
+
+
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}"><span style="color:#fff;">Rive B2B site</span></a></h1>
+<!-- <h1 id="site-name"><a href="{% url 'admin:index' %}"><span style="color:#fff;">Rive B2B site</span><span style="color:#edc77a;">.com</span></a></h1> -->
+
+{% endblock %}
+
+{% block nav-global %}
+
+<link rel="stylesheet" href="/static/css/bootstrap.css" media="screen">
+<link rel="stylesheet" href="/static/autocomplete_light/select2.css" media="screen">
+<link rel="stylesheet" href="/static/autocomplete_light/vendor/select2/dist/css/select2.css" media="screen">
+<link rel="stylesheet" href="/static/css/jquery.cxcalendar.css">
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.cxcalendar.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/admin/js/promotion.js"></script>
+<script src="/static/admin/js/jquery.dragsort-0.5.1.js"></script>
+<script src="/static/autocomplete_light/jquery.init.js"></script>
+<script src="/static/autocomplete_light/autocomplete.init.js"></script>
+<script src="/static/autocomplete_light/vendor/select2/dist/js/select2.full.js"></script>
+<script src="/static/autocomplete_light/select2.js"></script>
+<style type="text/css">
+  .results tr td, .results tr th {
+    line-height: 2 !important;
+  }
+  .modal-open {
+  overflow: hidden; }
+
+  .modal {
+    display: none;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    -webkit-overflow-scrolling: touch;
+    outline: 0; }
+    .modal.fade .modal-dialog {
+      -webkit-transform: translate(0, -25%);
+      -ms-transform: translate(0, -25%);
+      -o-transform: translate(0, -25%);
+      transform: translate(0, -25%);
+      -webkit-transition: -webkit-transform 0.3s ease-out;
+      -moz-transition: -moz-transform 0.3s ease-out;
+      -o-transition: -o-transform 0.3s ease-out;
+      transition: transform 0.3s ease-out; }
+    .modal.in .modal-dialog {
+      -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      -o-transform: translate(0, 0);
+      transform: translate(0, 0); }
+
+  .modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto; }
+
+  .modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px; }
+
+  .modal-content {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    background-clip: padding-box;
+    outline: 0; }
+
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #000; }
+    .modal-backdrop.fade {
+      opacity: 0; }
+    .modal-backdrop.in {
+      opacity: 0.5; }
+
+  .modal-header {
+    padding: 5px;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #f1f1f1; }
+    .modal-header:before, .modal-header:after {
+      content: "";
+      display: table; }
+    .modal-header:after {
+      clear: both; }
+
+  .modal-header .close {
+    margin-top: -2px; }
+
+  .modal-title {
+    margin: 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: normal; }
+
+  .modal-body {
+    position: relative;
+    padding: 15px; }
+
+  .modal-footer {
+    padding: 15px;
+    text-align: center; }
+    .modal-footer:before, .modal-footer:after {
+      content: "";
+      display: table; }
+    .modal-footer:after {
+      clear: both; }
+    .modal-footer .btn {
+      width: 70px;
+      font-weight: normal; }
+    .modal-footer .model {
+      color: #333;
+      background-color: #fff;
+      border-color: #ccc;
+      font-size: 14px; }
+    .modal-footer .btn + .btn {
+      margin-left: 5px;
+      margin-bottom: 0;
+      background-color: #367cba;
+      border-color: #367cba; }
+    .modal-footer .btn-group .btn + .btn {
+      margin-left: -1px; }
+    .modal-footer .btn-block + .btn-block {
+      margin-left: 0; }
+
+  .modal-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll; }
+
+  @media (min-width: 768px) {
+    .modal-dialog {
+      width: 600px;
+      margin: 150px auto; }
+    .modal-content {
+      -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
+    .modal-sm {
+      width: 300px; } }
+
+  @media (min-width: 992px) {
+    .modal-lg {
+      width: 600px; } }
+      
+</style>
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
+        <!-- <li><a href="#">Link</a></li> -->
+        <li class="dropdown">
+          <a href="javascript:void();" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Orders<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="javascript:void();" onclick="verify_orders_by_batch_a()">verify orders by batch</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'upload_erp_number' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="verify_orders_by_batch">
+                <input type="file" id="verify_orders_by_batch"  name="verify_orders_by_batch" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="verify_orders_by_batch_btn"></button>
+              </form>
+            </li>
+            <li><a href="/static/downloadfiles/OrderNO_ERPNO.csv">download templates</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="javascript:void();" onclick="upload_packageitems_a()">upload packageitems by batch</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'upload_package_items' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="upload_packageitems_by_batch">
+                <input type="file" id="upload_packageitems_by_batch"  name="upload_packageitems_by_batch" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="upload_packageitems_btn"></button>
+              </form>
+            </li>
+            <li><a href="/static/downloadfiles/Upload_packageitems.csv">download templates</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#export_orders_model">Export orders</a> -->
+              <a href="{% url 'export_customers' %}">Export orders</a></li>
+            </li>
+             <!-- <li><a href="{% url 'pdf_test' %}">pdf test</a></li> -->
+            <!-- <li><a href="{% url 'pdf_test2' %}">pdf test2</a></li> -->
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="javascript:void();" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="javascript:void();" onclick="upload_products_a()">upload products by batch</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'upload_products' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="upload_products">
+                <input type="file" id="upload_products_file"  name="upload_products_file" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="upload_products_btn"></button>
+              </form>
+            </li>
+            <li><a href="/static/downloadfiles/Upload_products.csv">download templates</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="javascript:void();" onclick="upload_catalogs_a()">upload categories by batch</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'upload_catalogs' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="upload_catalogs">
+                <input type="file" id="upload_catalogs_file"  name="upload_catalogs_file" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="upload_catalogs_btn"></button>
+              </form>                                                                                           
+            </li>
+            <li><a href="/static/downloadfiles/Upload_categories.csv">download templates</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="javascript:void();" onclick="update_stock_a()">update product stock by batch</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'update_stock' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="update_stock">
+                <input type="file" id="update_stock_file"  name="update_stock_file" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="update_stock_btn"></button>
+              </form>                                                                                           
+            </li>
+            <li><a href="/static/downloadfiles/Updated_product_stock.csv">download templates</a></li>
+<!--             <li role="separator" class="divider"></li>
+            <li><a href="/static/downloadfiles/Upload_products.csv">Export products</a></li> -->
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="javascript:void();" onclick="update_basic_products_a()">update basic (products)</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'update_basic_products' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="update_basic_products">
+                <input type="file" id="update_basic_products_file"  name="update_basic_products_file" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="update_basic_products_btn"></button>
+              </form>
+            </li>
+            <li><a href="/static/downloadfiles/update_basic(products).csv">download templates</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="javascript:void();" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop keepers<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="javascript:void();" onclick="upload_customers_a()">upload shopkeepers by batch</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'upload_customers' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="upload_customers">
+                <input type="file" id="upload_customers_file"  name="upload_customers_file" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="upload_customers_btn"></button>
+              </form>                                                                                           
+            </li>
+            <li><a href="/static/downloadfiles/Upload_shopkeepers.csv">download templates</a></li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="{% url 'export_customers' %}">Export Shop keepers</a></li>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+              <a href="javascript:void();" onclick="update_basic_shopkeepers_a()">update basic (shop keepers)</a>
+              <form enctype="multipart/form-data" method="post" action="{% url 'update_basic_shopkeepers' %}">
+              {% csrf_token %}
+                <input type="hidden" name="type" value="update_basic_shopkeepers">
+                <input type="file" id="update_basic_shopkeepers_file"  name="update_basic_shopkeepers_file" style="display: none;" accept="text/csv" />
+                <button type="submit" style="display: none;" id="update_basic_shopkeepers_btn"></button>
+              </form>                                                                                           
+            </li>
+            <li><a href="/static/downloadfiles/update_basic(shopkeepers).csv">download templates</a></li>
+          </ul>
+        </li>
+      </ul>
+<!--       <ul class="nav navbar-nav"> 
+        <li class="dropdown">
+          <a href="{% url 'send_orderitem_shortage_mail' %}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">send email test</a>
+        </li>
+      </ul> -->
+<!--       <ul class="nav navbar-nav"> 
+        <li class="dropdown">
+          <a href="{% url 'send_orderitem_shortage_mail_test' %}" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">send email tempalte test</a>
+        </li>
+      </ul> -->
+
+      <!-- 后台多语言 -->
+      <!--
+      <ul class="nav navbar-nav" style="float: right;padding-top: 6px;"> 
+        <li class="dropdown">
+          <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}"/>
+            <select name="language" style="background-color:#417690;" onchange="change_language()">
+                {% for language in LANGUAGES %}
+                    <option value="{{ language.0 }}"{% if language.0 == LANGUAGE_CODE %} selected="selected"{% endif %}>
+                        {{ language.1 }} ({{ language.0 }})
+                {% endfor %}
+            </select>
+            <input id="change_language_sub" type="submit" value="Go" style="display: none;" />
+        </form>
+        </li>
+      </ul> -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+
+  <div style="display: none;">
+  <!--批量上传更改订单erpnum的表单 -->
+<!--     <form enctype="multipart/form-data" method="post" action="{% url 'upload_erp_number' %}">
+    {% csrf_token %}
+      <input type="hidden" name="type" value="verify_orders_by_batch">
+      <input type="file" id="verify_orders_by_batch"  name="verify_orders_by_batch" style="display: none;" accept="text/csv" />
+      <button type="submit" style="display: none;" id="verify_orders_by_batch_btn"></button>
+    </form> -->
+  </div>
+
+<script type="text/javascript">
+  //上传csv批量更新订单的erpnum 触发选择文件输入框
+  function verify_orders_by_batch_a(){
+    $("#verify_orders_by_batch").click();
+  };
+
+  //上传csv批量添加订单包裹产品 触发选择文件输入框
+  function upload_packageitems_a(){
+    $("#upload_packageitems_by_batch").click();
+  };
+
+  //上传csv批量添加产品信息 触发选择文件输入框
+  function upload_products_a() {
+    $("#upload_products_file").click();
+  }
+
+  //上传csv批量更新产品基础信息 触发选择文件输入框
+  function update_basic_products_a() {
+    $("#update_basic_products_file").click();
+  }
+
+  //上传csv批量添加分类 触发选择文件输入框
+  function upload_catalogs_a() {
+    $("#upload_catalogs_file").click();
+  }
+
+  //上传csv批量添加用户 触发选择文件输入框
+  function upload_customers_a() {
+    $("#upload_customers_file").click();
+  }
+
+  //上传csv批量更新用户基本信息 触发选择文件输入框
+  function update_basic_shopkeepers_a() {
+    $("#update_basic_shopkeepers_file").click();
+  }
+
+  //上传csv批量更新产品库存 触发选择文件输入框
+  function update_stock_a(){
+    $("#update_stock_file").click();
+  }
+  
+
+  //切换语言
+  function change_language() {
+    $("#change_language_sub").click();
+  }
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    //批量更改订单erpnum上传csv验证
+    $("#verify_orders_by_batch").change(function(){
+      var file = document.getElementById("verify_orders_by_batch");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#verify_orders_by_batch_btn").click();
+    });
+
+    //上传csv批量添加订单包裹产品 上传csv验证
+    $("#upload_packageitems_by_batch").change(function(){
+      var file = document.getElementById("upload_packageitems_by_batch");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#upload_packageitems_btn").click();
+    });
+
+    //上传csv批量添加产品信息 上传csv验证
+    $("#upload_products_file").change(function(){
+      var file = document.getElementById("upload_products_file");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#upload_products_btn").click();
+    });
+
+    //上传csv批量更新产品基础信息 上传csv验证
+    $("#update_basic_products_file").change(function(){
+      var file = document.getElementById("update_basic_products_file");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#update_basic_products_btn").click();
+    });
+
+
+    //上传csv批量添加分类 上传csv验证
+    $("#upload_catalogs_file").change(function(){
+      var file = document.getElementById("upload_catalogs_file");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#upload_catalogs_btn").click();
+    });
+
+    //上传csv批量添加客户 上传csv验证
+    $("#upload_customers_file").change(function(){
+      var file = document.getElementById("upload_customers_file");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#upload_customers_btn").click();
+    });
+
+    //上传csv批量更新客户基本信息 上传csv验证
+    $("#update_basic_shopkeepers_file").change(function(){
+      var file = document.getElementById("update_basic_shopkeepers_file");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#update_basic_shopkeepers_btn").click();
+    });
+
+
+    //上传csv批量添加客户 上传csv验证
+    $("#update_stock_file").change(function(){
+      var file = document.getElementById("update_stock_file");
+      var fileobj = file.files;
+      if(fileobj.length>1){
+        alert("Can only upload one csv file.");
+        return false;
+      }
+      var name = fileobj[0].name;
+      var ext=name.substring(name.lastIndexOf(".")+1).toLowerCase();
+      if(ext != 'csv'){
+        alert("Can only upload csv file");
+        return false;
+      }
+      //验证通过触发提交按钮
+      $("#update_stock_btn").click();
+    });
+
+    /*
+     *订单列表页自定义按钮
+     */
+    if($('.addlink').length > 0) {
+      var add_order = $('.addlink').html().replace(/(^\s*)|(\s*$)/g, "");
+      if(add_order == 'Add Order' || add_order == 'Ajouter Order') {
+        //批量上传更改订单erpnum按钮
+        var verify_orders = '<a href="javascript:void();" onclick="verify_orders_by_batch_a()">verify orders</a>';
+        //模板下载
+        var download_verify_orders_template = '<a href="/static/downloadfiles/OrderNO_ERPNO.csv">download templates</a>';
+
+        var onebtn = '<div class="dropdown"><a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">verify orders<span class="caret"></span></a><ul class="dropdown-menu" aria-labelledby="dLabel"><li>'+verify_orders+'</li><br><li>'+download_verify_orders_template+'</li></ul></div>';
+
+        //批量上传订单包裹产品
+        var upload_package_items = '<a href="javascript:void();">upload shippment</a>';
+        //模板下载
+        var download_package_items_template = '<a href="/static/downloadfiles/OrderNO_ERPNO.csv">download templates</a>';
+
+        var twobtn = '<div class="dropdown"><a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">add package items<span class="caret"></span></a><ul class="dropdown-menu" aria-labelledby="dLabel"><li>'+upload_package_items+'</li><br><li>'+download_package_items_template+'</li></ul></div>';
+
+        // $('.addlink').parent('li').before('<li>'+twobtn+'</li>');
+        // $('.addlink').parent('li').before('<li>'+onebtn+'</li>');
+      }
+    }
+  });
+</script>
+
+<!-- 导出订单选择时间及订单状态弹窗 -->
+<div class="modal fade" id="export_orders_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;color: #000;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Please select the export conditions</h4>
+      </div>
+      <div class="modal-body">
+        <form enctype="multipart/form-data" method="post" action="{% url 'export_orders' %}" >
+          {% csrf_token %}
+            <input type="hidden" name="type" value="export_orders">
+            <label class="control-label" >Form:</label>
+            <input type="text" class="date" name="from" style="height: 30px;">
+            <br>
+            <label class="control-label" >To&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+            <input type="text" class="date" name="to" style="height: 30px;">
+            <br>
+            <label class="control-label">Status:</label>
+            <select name="status">
+              <option value="0">new</option>
+              <option value="1">processing</option>
+              <option value="2">partical shipped</option>
+              <option value="3">shipped</option>
+              <option value="4">cancel</option>
+              <option value="5">all</option>
+            </select>
+            <br>
+            <label class="control-label">Stock mark:</label>
+            <select name="mark">
+              <option value="A">A</option>
+              <option value="H">H</option>
+              <option value="B">B</option>
+            </select>
+            <br>
+            <label class="control-label">Export format:</label>
+            <select name="export_format">
+              <option value="0">csv</option>
+              <option value="1">pdf</option>
+            </select>
+            <button type="submit" style="display: none;" id="export_orders_btn">export</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" id="export_orders_model_cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" onclick="export_orders()" class="btn btn-primary btn-sm" style="background-color:#417690;" target="_blank;">Export</button>
+<!--         <button type="button" class="btn btn-primary btn-sm" style="background-color:#417690;">PDF</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $('.date').cxCalendar();
+
+    //订单导出
+    function export_orders(){
+      $("#export_orders_btn").click();
+      $("#export_orders_model_cancel").click();
+    }
+    /*
+    function selectAll(selelct_all,checkbox_name) {
+        var obj = document.getElementById(selelct_all);
+        var cks = document.getElementsByTagName("input");
+        var ckslen = cks.length;
+        if (obj.checked){
+            for(var i=0;i<ckslen;i++) {
+                if(cks[i].type == "checkbox" && cks[i].name==checkbox_name) {
+                    cks[i].checked = true;
+                }
+            }
+        }else{
+            for(var i=0;i<ckslen;i++) {
+                if(cks[i].type == "checkbox" && cks[i].name==checkbox_name) {
+                    cks[i].checked = false;
+                }
+            }
+        }
+    }
+
+    function submitForm(method){
+        if(method == 'product_supplier_show'){
+            document.getElementById('record').value = 'search';
+            document.myFrom.submit();
+        }
+        if(method == 'product_supplier_export'){
+            document.getElementById('record').value = 'export';
+            document.myFrom.submit();
+        }
+    } 
+    */
+</script>
+
+
+{% endblock %}

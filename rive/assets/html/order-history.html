@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-1.8.2.min.js"></script>
+    <!-- L20n setup -->
+    <script src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    function setLang (lang) {
+      $.cookie('lang', lang)
+      window.location.reload()
+    }
+    var lang = $.cookie('lang') || 'en-US';
+    document.write("<link rel='localization' href='../locales/"+lang+".json'>")
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="../js/l20n.js"></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="list-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="logo"><a href=""><img src="../images/logo.png" alt=""></a></div>
+            </div>
+            <div class="col-xs-6">
+              <ul class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="#" data-l10n-id="products"></a></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderlist"></a><span class="badge">42</span></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderhistory"></a></li>  
+              </ul>
+            </div>
+            <div class="col-xs-2 welcome">
+              <div class="fll mr10" data-l10n-id="wel"></div><div class="fll">Luca!</div><a href=""><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="main">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 pro-table">
+              <table class="table" style="margin:10px 0 0 0">
+                <thead>
+                  <tr>
+                    <th style="width:7%"></th>
+                    <th style="width:15%" data-l10n-id="ordernum"></th>
+                    <th style="width:15%;" data-l10n-id="creattime">  </th>
+                    <th style="width:15%" data-l10n-id="erp"> </th>
+                    <th style="width:15%;" data-l10n-id="verifued"></th>
+                    <th style="width:15%" data-l10n-id="status"> </th>
+                    <th style="width:15%" data-l10n-id="total"> </th>
+                  </tr>
+                </thead>
+              </table>
+              <div class="history-list">
+                <div class="list-top">
+                  <span style="width:7%; text-align:left;padding-left:15px;"><input type="checkbox"></span>
+                  <span style="width:15%">22998844</span>
+                  <span style="width:15%">2016-10-22  9:33</span>
+                  <span style="width:15%">erp338113 </span>
+                  <span style="width:15%"> 2016-10-22  14:22</span>
+                  <span style="width:15%">Procceeding</span>
+                  <span style="width:15%">Procceeding</span>
+                </div>
+                <div class="list-order">
+                  <div class="pro-this">Products in this order:</div>
+                  <div class="col-xs-12">
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-detail">
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>2016-10-22  14：22  Order proceeding</span>
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>2016-10-22  16：35  Order partly shipped. Tracking# 3394321 <a data-toggle="modal" data-target="#myModa2" href="">Package Detail</a></span>
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>2016-10-22  16：35  Order partly shipped. Tracking# 3394321 <a href="">Package Detail</a></span>
+                </div>
+              </div>
+              <div class="history-list">
+                <div class="list-top">
+                  <span style="width:7%; text-align:left;padding-left:15px;"><input type="checkbox"></span>
+                  <span style="width:15%">22998844</span>
+                  <span style="width:15%">2016-10-22  9:33</span>
+                  <span style="width:15%">erp338113 </span>
+                  <span style="width:15%"> 2016-10-22  14:22</span>
+                  <span style="width:15%">Procceeding</span>
+                  <span style="width:15%">Procceeding</span>
+                </div>
+                <div class="list-order">
+                  <div class="pro-this">Products in this order:</div>
+                  <div class="col-xs-12">
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12">
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                    <div class="col-xs-6">
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-detail">
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>2016-10-22  14：22  Order proceeding</span>
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>2016-10-22  16：35  Order partly shipped. Tracking# 3394321 <a  href="">Package Detail</a></span>
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>2016-10-22  16：35  Order partly shipped. Tracking# 3394321 <a href="">Package Detail</a></span>
+                </div>
+              </div>
+              <div class="pag">
+                <div class="col-xs-2">
+                  <input type="checkbox"><span data-l10n-id="selectall"></span>       
+                </div>
+                <div class="col-xs-6 delete">
+                  <a href=""><i class="fa fa-print" aria-hidden="true"></i></i><span data-l10n-id="printorder"></span></a>
+                </div>
+                <div class="col-xs-4 add" style="margin-top:0px;">
+                  <button type="button" class="btn btn-primary btn-sm" data-l10n-id="process"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+      <footer class="footer">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="country">
+                <a onclick="setLang('en-US')" href="javascript:void(0);"><img src="../images/EN.jpg" alt=""></a>
+                <a onclick="setLang('fr')" href="javascript:void(0);"><img src="../images/FA.jpg" alt=""></a>
+                <a onclick="setLang('uk')" href="javascript:void(0);"><img src="../images/UK.jpg" alt=""></a>
+                <a onclick="setLang('de')" href="javascript:void(0);"><img src="../images/GE.jpg" alt=""></a>
+              </div>
+              <div class="contant ft2">
+                <a class="under" href="" data-l10n-id="back"></a>
+                <a class="download" href="" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer> 
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label" data-l10n-id="tracking"></label>
+                    <div class="col-xs-9">
+                      <p class="form-control-static">UPZ3324311</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label" data-l10n-id="comment"></label>
+                    <div class="col-xs-9">
+                      <p class="form-control-static">ASPAAS</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-6 control-label" data-l10n-id="propackage"></label>
+                  </div>
+                </form>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th style="width:40%" data-l10n-id="name">Name</th>
+                      <th style="width:30%" data-l10n-id="ref"></th>
+                      <th style="width:30%" data-l10n-id="qty"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>                    
+                      <td class="t-left info">sweat capuche zip noir aqua L</td>
+                      <td>67 04 07</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>                    
+                      <td class="t-left info">sweat capuche zip noir aqua L</td>
+                      <td>67 04 07</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>                    
+                      <td class="t-left info">sweat capuche zip noir aqua L</td>
+                      <td>67 04 07</td>
+                      <td>100</td>
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
+        </div>
+      </div>
+    </div>
+	</body>
+  <script src="../js/common.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/plugin.js"></script>
+ 
+</html>

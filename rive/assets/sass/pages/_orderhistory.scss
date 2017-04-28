@@ -1,0 +1,201 @@
+//
+// wanglong
+// --------------------------------------------------
+.history-list{
+	border:1px solid #ddd;
+	margin-bottom: 10px;
+	.list-top{
+		background-color: #f5f5f5;
+		height: 42px;
+		line-height: 42px;
+		span{
+			display: inline-block;
+			text-align: center;
+		}
+	}
+	.list-order{
+		background-color: $white;
+		padding:10px 50px;
+		overflow: hidden;
+		.pro-this{
+			line-height: 24px;
+			padding:10px 0;
+		}
+		.col-xs-12{
+			line-height: 24px;
+			padding:0px;
+			border-bottom: 1px dashed #ccc;
+			padding: 20px 0;
+			.col-xs-6{
+				padding:0px;
+				.img{
+					width: 15%;
+					@include float;
+					img{
+						max-height: 70px;
+	    				border: 1px solid #ccc;
+					}
+				}
+				.title{
+					width: 35%;
+					margin-left: 5%;
+					@include float;
+				}
+				.price{
+					width: 20%;
+					margin-left: 5%;
+					@include float;
+					span{
+						display: block;
+						text-align: right;
+						
+					}
+				}
+			} 
+			
+		}
+	}
+	.list-detail{
+		padding:10px 50px;
+		background-color: #fafafa;
+		span{
+			line-height: 30px;
+			display:block;
+			.fa{
+				font-size: 12px;
+				margin-right: 10px;
+			}
+			a{
+				text-decoration: underline;
+				color:#357cba;
+			}
+		}
+	}
+}
+.order-detail{
+	border:1px solid #dddddd;
+	background-color: #f8f8f0;
+	overflow: hidden;
+	margin: 10px 15px;
+	.col-xs-8,
+	.col-xs-4
+	{
+		padding: 0px;
+	}
+}
+.place-order{
+	padding-right: 60px;
+	background-color: $white;
+	border-right: 1px dashed #dddddd;
+	.title{
+		padding:40px 0 40px 55px;
+		color:#8ab1b6;
+		line-height: 2rem;
+		font-size: 20px;
+	}
+	.form-horizontal{
+		.form-group{
+			padding-bottom: 40px;
+			margin-top: 0px;
+			.control-label{
+				font-weight: normal;
+				color: #999999;
+			}
+			.form-control-static{
+				color: #333;
+			}
+		}
+	}
+}
+.order-list{
+	.list-box{
+		border-bottom: 1px solid #dddddd;
+		padding:0px;	
+		li{
+			margin:20px 20px 0 20px;
+			border-bottom: 1px dashed #ddb4a4;
+			overflow: hidden;
+			padding-bottom: 20px;
+			.img{
+				width: 18%;
+				@include float;
+				img{
+					max-height: 70px;
+					border: 1px solid #ccc;
+				}
+			}
+			.title{
+				width: 30%;
+				margin-left: 5%;
+				@include float;
+			}
+			.price{
+				width: 25%;
+				margin-left: 5%;
+				@include float;
+				span{
+					display: block;
+					text-align: right;
+					
+				}
+			}
+			&:nth-last-child(1){
+				border: none;	
+			}
+		}
+		
+	}
+}
+.order-play{
+	.add{
+		text-align: center;
+		.btn{
+			width: 60%;
+		}
+	}
+	.pay{
+		padding: 20px 20px 10px 20px;
+		li{
+			line-height: 30px;
+			span{
+				display:inline-block;
+			}
+			.label{
+				width: 25%;
+				text-align: right;
+				color: $gray;
+			}
+			.static{
+				width: 75%;
+				text-align: right;
+				font-weight: bold;
+				color:$gray-base;
+				font-size: 20px;
+			}
+			.total{
+				color: #ff6600;
+			}
+		}
+	}
+}
+
+.modal-body{
+	.form-group{
+		margin-top: 0px;
+		.control-label{
+			font-weight: normal;
+		}
+		.form-control-static{
+			font-weight: bold;
+		}
+		[class*="col-"]{
+			text-align: left;
+		}
+	}
+	.table{
+		th{
+			padding:0px;
+			background: #f1f1f1;
+		}
+	}
+}

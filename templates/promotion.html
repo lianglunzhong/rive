@@ -1,0 +1,19 @@
+{% extends "template.html" %}
+{% block content %}
+
+<div class="main">
+  <div class="container">
+    <br>
+    {% if promotion %}
+      {% autoescape off %}
+        {{ promotion.content }}
+      {% endautoescape %}
+    {% else %}
+      <br><br><br><br><br><br>
+      <h3 style="text-align: center;">本店可以打架，打滚，打飞机&nbsp;···&nbsp;&nbsp;&nbsp;&nbsp;但是不能打折！</h3>
+    {% endif %}
+  </div>    
+</div>
+
+
+{% endblock %}

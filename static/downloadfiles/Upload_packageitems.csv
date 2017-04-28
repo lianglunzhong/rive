@@ -1,0 +1,8 @@
+Order_NO.;Shiping_Method;Tracking_NO.;Ref.;QTY;Note
+R0123000109ive;EMS;ems12424543;sku999;2;note R0123000109ive package
+R0123000109ive;;;sku991;1;
+R0123000109ive;;;sku990;3;
+R0123000109ive;;;sku998;2;
+R0123000108ive;sf-express;sf53426343;sku999;1;note R0123000108ive package
+R0123000108ive;;;sku998;1;
+R0123000107ive;sf-express;sf54326456;sku999;3;note R0123000107ive package

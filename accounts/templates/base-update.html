@@ -1,0 +1,63 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+
+<fieldset class="pro-sel">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6" style="border-right: 0.05px dotted;">
+            <div class="sel-box">
+                <h3>Product basic update</h3>
+                <hr>
+                <div>
+                    <p>需要更新的字段说明：括号外为需要更新的字段，括号内为csv表格第一行需要填写的字段名称</p>
+                    <p style="color: red;">Ref.(sku) , Name(name)  ,  Price(price) , SSP(ssp) , RRP(rrp) , Is_net_price(is_net_price) ,</p><p style="color: red;"> Catalog_id(catalog_id) , Visibility(visibility) , Public-qty(qty) , CNL-qty(qty2) , Special-Mark(mark)</p>
+                </div>
+                <br><br>
+                <form class="form-inline" role="form" enctype="multipart/form-data" method="post" action="{% url 'export_orders' %}" target="blank">
+                {% csrf_token %}
+                    <input type="file" name="product_basic_update">
+                    <button type="button" class="btn btn-primary btn-sm" style="background-color:#417690;" target="_blank;">submit</button>
+                    <br><br><br><br><br><br><br><br><br>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="sel-box">
+                <h3>Shopkeeper basic update</h3>
+                <hr>
+                <div class="sel-li">
+                    <form class="form-inline" role="form" enctype="multipart/form-data" method="post" action="{% url 'export_customers' %}" target="blank">
+                    {% csrf_token %}
+                        <input type="hidden" name="type" value="export_customers">
+                        <label>Admin:</label>
+                        <br>
+                        <select style="width: 180px;" name="user_id">
+                            {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                            {% if super_user %}
+                                <option value="9999">all</option>
+                            {% endif %}
+                        </select>
+                        <br>
+                        <label style="padding-top:10px;">Account number:</label>
+                        <input type="text" name="account_number" placeholder="Account number start with" style="width: 180px;">
+                        <br><br>
+                        <button type="submit" class="btn btn-primary btn-sm" style="background-color:#417690;" target="_blank;">Export</button>
+                        <br><br><br><br><br><br><br><br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</fieldset>
+
+<script type="text/javascript">
+    $('.date').cxCalendar();
+</script>
+
+{% endblock %}
+
+
+

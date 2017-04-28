@@ -1,0 +1,149 @@
+/* title */
+<title "Rive B2B site">
+
+/*header*/
+<promotion "Promotion">
+<products "Products">
+<orderlist "Order List">
+<orderhistory "Order History">
+<wel "welcome,">
+<signout "sign out">
+<signoutmodel "Sure to sign out ?">
+<changepassword "change password">
+<billingaddress "billing address">
+<shippingaddress "shipping address">
+
+/* footer */
+<download "Download Catalog">
+<copyright "© 2017 Rive France All Rights Reserved.">
+<back "Back to rive-france.com">
+
+/*search*/
+<createorderby "Create  order  by ">
+<uppic "picture">
+<uplist "csv list">
+<addorder "Add To Order List">
+<searchword "Search Word">
+<downtemplate "Down template">
+<searchnotfound "Sorry ! The item you are searching for has not been found.">
+
+
+/* login */
+<account "Account">
+<password "Password">
+<oldpassword "Current password">
+<newpassword "New password">
+<confirmpassword "Confirm new password">
+<signin "SIGN IN">
+
+/* productslist */
+<select "Select All">
+<proinfo "Product Name">
+<ref "Ref.">
+<ref2 "Ref.: ">
+<price2 "Price:">
+<productname2 "Product Name:">
+<details2 "Details:">
+<details "Details">
+<stock "Stock">
+<price "Price">
+<quantity "Quantity">
+<qty "QTY">
+<add "Add">
+<action "Action">
+<selectall "Select All">
+<choseditem "Selected Item(s):">
+<addsuccessmessage "Added to order list success.">
+<viewmore "view more">
+<deliverydate "Est.Delivery Date:">
+<category "Category">
+
+/* orderlist */
+<process "Process">
+<outstock "Out of stock">
+<dellist "Delete From List">
+<delout "Delete out-of-stock products">
+<totalitems "Total Item(s):">
+<totalamount "Total amount:">
+<seleteproduct "please select product(s)!">
+<cannotaddqty "The number of products can not be less than 1 !">
+<notorderlist "You haven't had any items in order list.">
+<outofstock "Sorry the item you ordered is temporary out of stock, however, you can still place your order and our sale team will contact you for the delivery date.">
+
+
+/* orderhistory */
+<name "Name">
+<qty "QTY">
+<propackage "Products in this package:">
+<ordernum "NO.">
+<creattime "Create Time">
+<erp "ERP NO.">
+<verifued "Verified Time">
+<status "Status">
+<total "Total Amount">
+<printorder "Print Order">
+<process "Process">
+<orderinformation "Order Information">
+<erpnum "ERP NUM:">
+<orderstatus "Status:">
+<createtime2 "Create time:">
+<creater "Creater:">
+<sdate2 "Expected shipping date:">
+<comment2 "Comment:">
+<productinfo "Product info.">
+<notorders "you haven't had any orders.">
+<ordercreated "Order Created">
+<orderverity "Order verifying">
+
+/* orderdetail */
+<placeorder "Place Order">
+<saddress "Shipping Address">
+<baddress "Billing Address">
+<sdate "Expected shipping date">
+<comment "Comment">
+<summary "Summary">
+<shipping "Shipping">
+<tovalidate "to validate">
+<totalprice "Total price">
+<placeorder "Place Order">
+<expctedshippingtips "In condition of available stocks and validation of the shipping date by the sales team.">
+<placeordertips "The price of your request doesn't include the delivery fee. We will study you demand of order and give you a feedback.">
+<shippriceinfor "All the prices are indicative. The final amount will be confirmed in your order confirmation.">
+
+/* modal */
+<modaltitle "Beware">
+<modalbody "You will order out-of-stock products. This will only proceed to a reservation of the products. They will be delivered and invoiced only when in stock.">
+<cancel "CANCEL">
+<ok "OK">
+<delete "DELETE">
+<deleteonelist "Sure to delete selected product(s)?">
+<deletealllist "Sure to delete selected product(s)?">
+<deleteout "Sure to delete all the out-of-stock product(s)?">
+
+/* pakeagedetail */
+<trackingmethod "Tracking Method:">
+<trackingnum "Tracking NUM:">
+<trackinglink "Tracking Link:">
+
+
+/* address */
+<eidt "Edit">
+<setdefault "Set Default">
+<addaddress "Add Address">
+<editaddress "Edit Address">
+<shippingcountry "Shipping Country:">
+<shippingstate "Shipping State/Province:">
+<shippingcity "Shipping City:">
+<shipping_address "Shipping Address:">
+<shippingzip "Shipping Zip/Postal Code:">
+<shippingphone "Shipping Home Phone:">
+<shippingmobile "Mobile:">
+<billing_address "Billing Address:">
+
+<billingcountry "Billing Country:">
+<billingstate "Billing State/Province:">
+<billingcity "Billing City:">
+<billingzip "Billing Zip/Postal Code:">
+<billingphone "Billing Home Phone:">
+<billingmobile "Mobile:">
+

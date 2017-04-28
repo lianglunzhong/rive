@@ -1,0 +1,192 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+		<link rel="stylesheet" href="/static/assets/css/style.css">
+    <!-- <link href="../Rivelogo_B.ico" rel="shortcut icon" type="image/x-icon" /> -->
+    <style type="text/css">
+      body{
+        padding-bottom: 0;
+      }
+      footer {
+        background-image: linear-gradient(to right, #35484d, #5b8082);
+        background-image: -webkit-linear-gradient(left, #35484d, #5b8082);
+      }
+    </style>
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/modal.js"></script>
+    <!-- L20n setup -->
+    <script src="/static/assets/js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    function setLang (lang) {
+      $.cookie('lang', lang,  { path: '/' });
+      window.location.reload()
+    }
+    var lang = $.cookie('lang') || 'en-US';
+    document.write("<link rel='localization' href='/static/assets/locales/"+lang+".json'>")
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="/static/assets/js/l20n.js"></script>
+	</head>
+
+	<body class="login-bg" style="min-height: 820px">
+    <div >
+      <header>
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+              <div class="logo-sigin"><a href=""><img src="/static/assets/images/logo.png" alt=""></a></div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-4 col-xs-offset-4">
+            <form class="loginform" role="form" method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <label class="form-title" data-l10n-id="account"></label>
+                <input type="text" class="form-control  l-control" name="email" value="{{ email }}" placeholder="please type your email">
+              </div>
+              <div class="form-group" id="old_password">              
+                <label class="form-title" data-l10n-id="password"></label>
+                <input type="password" class="form-control  l-control" name="password" placeholder="please type your password here">
+              </div>
+              {% if change_password %}
+                <div id="change_password" class="form-group" style="display: none;">
+                  <label class="form-title" data-l10n-id="newpassword"></label>
+                  <input type="password" class="form-control  l-control" name="password">
+                  <label class="form-title" data-l10n-id="confirmpassword"></label>
+                  <input type="hidden" name="type" value="first_login_change_password">
+                  <input type="password" class="form-control  l-control" name="cpassword">
+                </div>
+              {% endif %}
+              <div class="checkbox change">
+                  <!--<a href="javascript:void(0);">
+                  Change Password?
+                </a> -->
+              </div>
+              <button type="submit" class="btn btn-default btn-lg" data-l10n-id="signin"></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <footer class="footer" style="margin-top: 170px;">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="country">
+                <a onclick="setLang('nl')" href="javascript:void(0);" title="Dutch"><img src="/static/assets/images/NL.png" alt=""></a>
+                <a onclick="setLang('fr')" href="javascript:void(0);" title="French"><img src="/static/assets/images/FR.jpg" alt=""></a>
+                <a onclick="setLang('en-US')" href="javascript:void(0);" title="English"><img src="/static/assets/images/UK.jpg" alt=""></a>
+                <a onclick="setLang('de')" href="javascript:void(0);" title="German"><img src="/static/assets/images/GE.jpg" alt=""></a>
+              </div>
+              <div class="contant">
+                <!-- <a href="">Contact us</a> | 
+                <a href="">Policy</a> | 
+                <a href="">Download Catalog</a> | 
+                <a class="under" href="">Back to rive-france.com</a> -->
+                <a class="under" href="http://www.rive-france.com/" data-l10n-id="back"></a>
+                <a class="download" href="http://rive-france.com/images/catalogue/catalogue-2017-sd.pdf" target="black" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer> 
+    </div>
+
+
+    <!-- 登录错误信息弹窗提示 -->
+    <input type="hidden" id="data_error" value="{{ error }}">
+    <a href="javascript:void(0)" id="data_error_a"  data-toggle="modal" data-target="#delete_one" style="display: none;"></a>
+    <div class="modal fade" id="delete_one" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 400px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+          </div>
+          <div class="modal-body" style="text-align: center;">
+            <p id="data_error_p"></p>
+          </div>
+          <input type="hidden" id="delete_one_product" value="">
+          <div class="modal-footer">
+            {% if change_password %}
+              <button type="button" onclick="change_password_ok()" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+            {% elif change_success %}
+              <button type="button" onclick="change_success_ok()" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+            {% else %}
+              <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+	</body>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var data_error = $("#data_error").val();
+      if(data_error){
+        $("#data_error_p").html(data_error);
+        $("#data_error_a").click();
+      };
+    });
+
+    function change_password_ok(argument) {
+      $("#change_password").show();
+      $("#old_password").hide();
+    };
+
+    function change_success_ok(){
+      window.location.href = "{% url 'promotion' %}";
+    };
+  </script>
+  <script src="/static/assets/js/common.js"></script>
+  <script src="/static/assets/js/plugin.js"></script>
+  <script>
+/*    $(".loginform").validate({
+        rules: {
+            // email: {
+            //     required: true,
+            //     email: true
+            },
+            password: {
+                required: true,
+                minlength: 6,
+                maxlength:30
+            },
+            cpassword: {
+                required: true,
+                minlength: 6,
+                maxlength:30
+            }
+        },
+        messages: {
+            // email:{
+            //     required:"Please provide an email.",
+            //     email:"Please enter a valid email address."
+            // },
+            password: {
+                // required: "Please provide a password.",
+                minlength: "Your password must be at least 6 characters long.",
+                maxlength: "The password exceeds maximum length of 30 characters."
+            },
+            cpassword: {
+                // required: "Please provide a change password.",
+                minlength: "Your password must be at least 6 characters long.",
+                maxlength: "The password exceeds maximum length of 30 characters."
+            }
+        }
+
+    });*/
+  </script>
+</html>
+
+{% endblock %}

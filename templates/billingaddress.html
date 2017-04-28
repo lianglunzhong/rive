@@ -1,0 +1,76 @@
+{% extends "template.html" %}
+{% block content %}
+<div class="main">
+  <div class="container">
+    <div class="row">
+      <div class=" order-detail" style="background-color:#fff;">
+        <div class="col-xs-12">
+          <div class="place-order" style="padding-right: 0px; background-color: #fff; border-right:none;">
+            <div class="title" data-l10n-id="baddress"></div>
+            <div class="form-group">
+              <div style="margin:0 4.5%; width:50%">
+                <div class="modal-body address">
+                  <form class="form-horizontal address loginform" method="POST" action="{% url 'billing_address_handle' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="type" value="billing_address_handle">
+                    <input type="hidden" name="customer_id" value="{{ customer.id }}">
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputEmail3" class="col-sm-5 control-label" data-l10n-id="billingcountry"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="Country" name="country" value="{{ address.billing_country }}">
+                      </div>
+                    </div>
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="billingstate"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="State" name="state" value="{{ address.billing_state }}">
+                      </div>
+                    </div>
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="billingcity"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="City" name="city" value="{{ address.billing_city }}">
+                      </div>
+                    </div>
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="billing_address"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="Address" name="address" value="{{ address.billing_address }}">
+                      </div>
+                    </div>
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="billingzip"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="Zip" name="czip" value="{{ address.billing_zip }}">
+                      </div>
+                    </div>
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="billingphone"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="Home Phone" name="phone" value="{{ address.billing_phone }}">
+                      </div>
+                    </div>
+                    <div class="form-group mb15" style="padding-bottom:0px">
+                      <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="billingmobile"></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control"  placeholder="Mobile" name="mobile" value="{{ address.billing_mobile }}">
+                      </div>
+                    </div>
+                    <div class="modal-footer tleft" style="margin:0px;padding:30px 0 0 0;">
+                      <!-- <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button> -->
+                      <button type="submit" class="btn btn-primary btn-sm" data-l10n-id="ok" style="background-color: #367cba;"></button>
+                    </div>
+                  </form>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+
+{% endblock %}
+
+

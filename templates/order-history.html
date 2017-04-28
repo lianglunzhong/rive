@@ -1,0 +1,357 @@
+{% extends "template.html"%}
+{% block content %}
+<div class="main">
+  <div class="container">
+    <div class="row" id="checkList">
+      <div class="col-xs-12 pro-table">
+        <table class="table" style="margin:10px 0 0 0">
+          <thead>
+            <tr>
+              <th style="width:14%"></th>
+              <th style="width:12%" data-l10n-id="ordernum"></th>
+              <th style="width:15%;" data-l10n-id="creattime"></th>
+              <th style="width:12%" data-l10n-id="erp"></th>
+              <th style="width:15%;" data-l10n-id="verifued"></th>
+              <th style="width:14%" data-l10n-id="status"></th>
+              <th style="width:15%" data-l10n-id="total"></th>
+            </tr>
+          </thead>
+        </table>
+        {% if orders %}
+          {% for order in orders %}
+            <div class="history-list">
+              <div class="list-top">
+                <span style="width:14%; text-align:left;padding-left:5px;"><a href="javascript:void(0);" onclick="print_order({{ order.id }})" style="color: #636161;"><i class="fa fa-print" aria-hidden="true"></i>&nbsp;<span data-l10n-id="printorder"></span></a></span>
+                <span style="width:12%">{{ order.ordernum }}</span>
+                <span style="width:15%">
+                  {% for key,value in order_create.items %}
+                    {% if key == order.id %}
+                      {{ value }}
+                    {% endif %}
+                  {% endfor %}
+                </span>
+                <span style="width:12%">{{ order.erp_num }}</span>
+                <span style="width:15%">
+                  {% for key,value in order_verify.items %}
+                    {% if key == order.id %}
+                      {{ value }}
+                    {% endif %}
+                  {% endfor %}
+                  </span>
+                <span style="width:14%">
+                  {% for key, value in status.items %}
+                    {%if order.status == key %}
+                      {{ value }}
+                    {% endif %}
+                  {% endfor %}
+                </span>
+                <span style="width:15%">
+                  {{ order.amount }}
+                  {% for key,value in currency_codes.items %}
+                    {% if key == order.id %}
+                      {{ value }}
+                    {% endif %}
+                  {% endfor %}
+                  </span>
+              </div>
+              <div class="list-order">
+                <!-- <div class="pro-this">Products in this order:</div> -->
+                  <div class="col-xs-12">
+                    {% if order.imgorder %}
+                      <div style="max-width: 30%;"><img src="/site_media/{{ order.imgorder }}" onerror="this.src='/static/assets/images/no_picture.png'"></div><br>
+                    {% endif %}
+                    {% for orderitem in orderitems %}
+                      {% if order.id == orderitem.order_id %}
+                        <div class="col-xs-6" style="padding:0.65em 0;">
+                          {% for key, value in images.items %}
+                            {% if key == orderitem.id %}
+                              {% if value %}
+                                <div class="img"><img  src="/site_media/{{ value }}" alt="" onerror="this.src='/static/assets/images/no_picture.png'"></div>
+                              {% else %}
+                                <div class="img"><img src="/static/assets/images/no_picture.png" alt=""></div>
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                          <div class="title">
+                            <span style="line-height: 20px;height: 60px;overflow: hidden;display: block;">{{ orderitem.name }}</span>
+                            
+                            Ref. : {{ orderitem.sku }}
+                          </div>
+                          <div class="price">
+                            <span>
+                              {{ orderitem.price }} 
+                              {% for key,value in currency_codes.items %}
+                                {% if key == orderitem.order_id %}
+                                  {{ value }}
+                                {% endif %}
+                              {% endfor %}
+                            </span>
+                            <span>{{ orderitem.quantity }}</span></div>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+              </div>
+              <div class="list-order" style="background-color: #fafafa;">
+                <div class="col-xs-8" style="padding-left: 0px;">
+                  <span><span data-l10n-id="shipping_address"></span>&nbsp;
+                    {% for key,value in saddresses.items %}
+                      {% if key == order.id %}
+                        {{ value }}
+                      {% endif %}
+                    {% endfor %}
+                  </span>
+                  <br>
+                  <span><span data-l10n-id="billing_address"></span>&nbsp;
+                    {% for key,value in baddresses.items %}
+                      {% if key == order.id %}
+                        {{ value }}
+                      {% endif %}
+                    {% endfor %}
+                  </span>
+                </div>
+                <div class="col-xs-4" style="position: initial;">
+                  <div class="col-xs-3" style="padding-left: 0;">
+                    <span data-l10n-id="comment2"></span>
+                  </div>
+                  <div class="col-xs-9" style="position: initial;">
+                    <div class="order-comment">
+                      <span id="order_comment_{{ order.id }}">{{ order.message }}</span>
+                      <div id="order_comment_a_{{ order.id }}" style="display: none;">
+                      ......
+                      {% if lang == 'fr' %}
+                        <a href="javascript:void(0)" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" title="Commentaire Détails" data-content="{{ order.message }}" data-l10n-id="viewmore"></a>
+                      {% elif lang == 'de' %}
+                        <a href="javascript:void(0)" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" title="Kommentar detail" data-content="{{ order.message }}" data-l10n-id="viewmore"></a>
+                      {% elif lang == 'nl' %}
+                        <a href="javascript:void(0)" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" title="comment detail" data-content="{{ order.message }}" data-l10n-id="viewmore"></a>
+                      {% else %}
+                        <a href="javascript:void(0)" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" data-placement="left" title="comment detail" data-content="{{ order.message }}" data-l10n-id="viewmore"></a>
+                      {% endif%}
+                      </div>
+                    </div>
+                  </div>
+                  {% for key,value in except_date.items %}
+                    {% if key == order.id %}
+                      <div class="col-xs-12" style="padding:5px 0;border-bottom:none;">
+                        <span><span data-l10n-id="sdate2"></span>&nbsp;&nbsp;{{ value }}</span>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="list-detail">
+                <span><i class="fa fa-caret-right" aria-hidden="true"></i>
+                  {{ order.created }} <span style="display: inline;" data-l10n-id="ordercreated"></span>
+                </span>
+                {% if order.verifued %}
+                  <span><i class="fa fa-caret-right" aria-hidden="true"></i>
+                      {{ order.verifued }}  <span style="display: inline;" data-l10n-id="orderverity"></span>
+                  </span>
+                {% endif %}
+                {% for package in packages %}
+                  {% if order.id == package.order_id %}
+                    <span><i class="fa fa-caret-right" aria-hidden="true"></i>{{ package.created }}  Order partly shipped. Tracking# {{ package.tracking_number }} <a data-toggle="modal" data-target="#myModa2" href="javascript:void(0);" onclick="package_detail({{package.id }})" id="tack_detail_a">Package Detail</a></span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="history-list">
+            <div class="list-order">
+            <br>
+              <table>{{ customer.firstname }} ! <span data-l10n-id="notorders"></span></table>
+              <br><br><br>
+            </div>
+          </div>
+        {% endif %}
+        {% if orders %}
+          <div class="pag">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-6">
+              <nav>
+                <input type="hidden" id="page_id" name="page_id" value="{{ page_id }}">
+                <input type="hidden" id="order_total" name="order_total" value="{{ order_total }}">
+                <input type="hidden" id="current_orders" name="current_orders" value="{{ current_orders }}">
+                <div class="M-box1"></div>
+              </nav>
+            </div>
+            <div class="col-xs-2 delete" style="padding-top: 5px;">
+              <li style="list-style:none;float: right;" id="current_total">{{ start_order }}--{{ end_order }} / total: {{ order_total }}</li>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 查看包裹详情弹窗 -->
+<div class="modal fade" id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-xs-4 control-label" data-l10n-id="trackingmethod"></label>
+                <div class="col-xs-8">
+                  <p class="form-control-static" id="tracking_method"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4 control-label" data-l10n-id="trackingnum"></label>
+                <div class="col-xs-8">
+                  <p class="form-control-static" id="tracking_num"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4 control-label" data-l10n-id="trackinglink"></label>
+                <div class="col-xs-8">
+                  <a id="tracking_link_a" href="" target="blank"><p class="form-control-static" id="tracking_link"></p></a>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4 control-label" data-l10n-id="comment"></label>
+                <div class="col-xs-8">
+                  <p class="form-control-static" id="tracking_note"></p>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-6 control-label" data-l10n-id="propackage"></label>
+              </div>
+            </form>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th style="width:40%" data-l10n-id="name"></th>
+                  <th style="width:30%" data-l10n-id="ref"></th>
+                  <th style="width:30%" data-l10n-id="qty"></th>
+                </tr>
+              </thead>
+              <tbody id="tracking_tbody">
+                <!--<tr>                    
+                  <td class="t-left info">sweat capuche zip noir aqua L</td>
+                  <td>67 04 07</td>
+                  <td>100</td>
+                </tr> -->
+              </tbody>
+            </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--页面所有订单id -->
+<input type="hidden" id="order_ids" value="{{ order_ids }}">
+<script>
+  $(function () {
+    $('.js-popover').popover();
+  })
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    //获取购物车里面所有产品id
+    var order_ids = $("#order_ids").val();
+    //把字符串转化为数组
+    order_ids = order_ids.split(',');
+    console.log(order_ids);
+
+    $.each(order_ids, function(k,v){
+      var comment = $("#order_comment_"+v).html();
+      if(comment && comment.length > 80){
+        $("#order_comment_a_"+v).show();
+      }
+    });
+  });
+</script>
+
+<!--打印页面加载 -->
+<div id="print_page">
+  <iframe id="print_page_iframe" src="" style="display: none;"></iframe>
+</div>
+
+<!-- 分页 -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+      });
+
+      var page_id = $("#page_id").val();
+      var order_total = $("#order_total").val();
+      var current_orders = $("#current_orders").val();
+
+    $('.M-box1').pagination({
+        totalData: order_total,
+        showData: 10,
+        coping: true,
+        count: 2,
+        current: page_id,
+        callback:function(api){
+          var page_id = api.getCurrent();
+          if(page_id){
+            window.location.href = '/order_history/page_'+page_id;
+          }else{
+            window.location.href = '/order_history/page_2';
+          }
+        },
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  /*
+   *查看包裹详情
+   */
+  function package_detail(package_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var dict = {};
+    dict['type'] = 'package_detail';
+    dict['package_id'] = package_id;
+
+    $.ajax({
+      type: 'POST',
+      data: dict,
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        $("#tracking_method").html(data.tracking_method);
+        $("#tracking_num").html(data.tracking_num);
+        $("#tracking_link").html(data.tracking_link);
+        $("#tracking_note").html(data.tracking_note);
+        $("#tracking_link_a").attr('href',data.tracking_link)
+        var products = data.products;
+        var product_detail = ''
+        $.each(products, function(k,v){
+          product_detail += "<tr><td class='t-left info'>"+v.name+"</td><td>"+v.sku+"</td><td>"+v.qty+"</td></tr>";
+        });
+        $("#tracking_tbody").html(product_detail);
+      },
+      error:function(){
+        alert('false !')
+      }
+    });
+  };
+
+  /*
+   *打印订单
+   */
+  function print_order(order_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    order_id = parseInt(order_id);
+    $("#print_page_iframe").attr('src','/order_print/'+order_id);
+  };
+</script>
+{% endblock %}

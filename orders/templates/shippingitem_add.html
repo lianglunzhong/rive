@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="/static/css/bootstrap.css" media="screen">
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/bootstrap.min.js"></script>
+	<script src="/static/admin/js/promotion.js"></script>
+	<script src="/static/admin/js/jquery.dragsort-0.5.1.js"></script>
+</head>
+<body>
+	<div style="display: none;" id="shipitem_add">
+		<div style="float: left;">
+			<label for="ship_sku">Sku:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+			<input id="ship_sku" type="text" name="ship_sku">
+		</div>
+		<div style="float: left;">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<label for="ship_qty">Qty:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+			<input id="ship_qty" type="text" name="ship_qty" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+		</div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" id="ship_save">Save</button>
+		&nbsp;&nbsp;&nbsp;
+		<button type="button" id="ship_delete">Delete</button>
+	</div>
+	<button type='button' id="add_ship_product">Add anthor</button>
+	<input type="hidden" id="package_id" value="{{ package_id }}">
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.ajaxSetup({
+	            data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+	        });
+
+			//添加产品按钮
+			$("#add_ship_product").click(function() {
+				$("#shipitem_add").show();
+				$("#add_ship_product").hide();
+			});
+
+			//添加产品时的删除按钮
+			$("#ship_delete").click(function() {
+				$("#ship_sku").val("");
+				$("#ship_qty").val("");
+				$("#shipitem_add").hide();
+				$("#add_ship_product").show();
+			});
+
+			//添加产品时的保存按钮
+			$("#ship_save").click(function() {
+				var sku = $("#ship_sku").val();
+				var qty = $("#ship_qty").val();
+				var package_id = $("#package_id").val();
+				var type = "add_ship_product";
+
+				$.ajax({
+					type: "POST",
+					data: {type:type,sku:sku,qty:qty,package_id:package_id},
+					url: "{% url 'shipitem_add_ajax' %}",
+					cache: false,
+					dataType: "html",
+					success:function(data){
+						var data = $.parseJSON(data);
+						if (data.res == 'success'){
+							parent.location.reload(true);
+						}else{
+							window.alert('error');
+						}
+					},
+					error:function(){
+						alert("false");
+					},
+
+				});
+
+				$("#ship_sku").val("");
+				$("#ship_qty").val("");
+				$("#shipitem_add").hide();
+				$("#add_ship_product").show();
+			});
+		});
+	</script>
+</body>
+</html>
+

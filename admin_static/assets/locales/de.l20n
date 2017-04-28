@@ -1,0 +1,148 @@
+/* title */
+<title "Rive B2B site">
+
+/*header*/
+<promotion "Promotion">
+<products "Produkte">
+<orderlist "Warenkorb">
+<orderhistory "Bestellhistorie">
+<wel "Begrüssung,">
+<signout "Abmelden">
+<signoutmodel "Sicher für Verlassen ?">
+<changepassword "Passwort ändern">
+<billingaddress "Rechnungsadresse">
+<shippingaddress "Lieferadresse">
+
+/* footer */
+<download "Laden Sie den Katalog">
+<copyright "© 2017 Rive France. Alle Rechte vorbehalten">
+<back "Rückkehr zu Rive-France">
+
+/*search*/
+<createorderby "Bestellung erstellen von ">
+<uppic "Bild">
+<uplist "CSV Liste">
+<addorder "Hinzufügen Sie im Warenkorb">
+<searchword "Search Word">
+<downtemplate "Erweiterung herunterladen">
+<searchnotfound "Entschuldigung, der Produkt der Sie gesucht haben wird nicht gefunden.">
+
+
+/* login */
+<account "Konto">
+<password "Passwort">
+<oldpassword "Passwort">
+<newpassword "Neues Passwort">
+<confirmpassword "Bestätigen Sie das neue Passwort">
+<signin "Anmelden">
+
+/* productslist */
+<select "Alles auswählen">
+<proinfo "Produktname">
+<ref "Ref.">
+<ref2 "Ref.: ">
+<price2 "Preis:">
+<productname2 "Produktname:">
+<details2 "Details:">
+<details "Details">
+<stock "Stock">
+<price "Preis">
+<quantity "Quantität">
+<qty "QTY">
+<add "Hinzufügen">
+<action "Aktion">
+<selectall "Alles auswählen">
+<choseditem "Ausgewählte Produkte:">
+<addsuccessmessage "Ihr Artikel wurde soeben in den Warenkorb gelegt.">
+<viewmore "Siehe mehr">
+<deliverydate "Voraussichtliche Lieferdatum:">
+<category "kategorie">
+
+/* orderlist */
+<process "Bestätigen">
+<outstock "Bestandsunterdeckung">
+<dellist "Aus Liste löschen">
+<delout "Produkte">
+<totalitems "Total Produkte:">
+<totalamount "Gesamtkosten:">
+<seleteproduct "Bitte wählen Sie Ihre Produkte aus!">
+<cannotaddqty "Die Anzahl der Waren kann unter 1 nicht sein !">
+<notorderlist "Sie haben im Warenkorb keine Artikel.">
+<outofstock "Entschuldigung, die Produkte die Sie bestellt haben sind ausverkauft. Allerdings können Sie die bestellen und unser Verkaufsinnendienst wird mit Ihnen Kontakt nehmen für die Lieferzeit.">
+
+
+/* orderhistory */
+<name "Name">
+<qty "QTY">
+<propackage "Products in this package:">
+<ordernum "NO.">
+<creattime "Erstellungsdatum">
+<erp "No. ERP">
+<verifued "überprüfung Datum">
+<status "Status">
+<total "Gesamtkosten">
+<printorder "Bestellung drucken">
+<process "Bestätigen">
+<orderinformation "Bestellinformation">
+<erpnum "No. ERP:">
+<orderstatus "Status:">
+<createtime2 "Erstellungsdatum:">
+<creater "Schöpfer:">
+<sdate2 "Geforderte Absendedatum:">
+<comment2 "Kommentar:">
+<productinfo "Product info.">
+<notorders "Sie haben keine Bestellung.">
+<ordercreated "Angelegte Bestellung">
+<orderverity "Geprüfte Bestellung">
+
+/* orderdetail */
+<placeorder "Bestellen">
+<saddress "SLieferadresse">
+<baddress "Rechnungsadresse">
+<sdate "Geforderte Absendedatum">
+<comment "Kommentar">
+<summary "Teilsumme">
+<shipping "Versandkosten">
+<tovalidate "Zu bestätigen">
+<totalprice "Gesamtpreis">
+<placeorder "Bestellen">
+<expctedshippingtips "Unter dem Vorbehalt der Produktverfügbarkeit und der Versandte Bestätigung der Vertriebsteam.">
+<placeordertips "Ihr Bestellpreis umfasst keine Versandkosten. Wir werden Ihre Anfrage bearbeiten und kontaktieren Sie bald wieder.">
+<shippriceinfor "Alle Preise dienen der allgemeinen Information. Sie werden das definitives Gesamtkosten auf Ihre Auftragsbestätigung finden.">
+
+/* modal */
+<modaltitle "Achtung">
+<modalbody "You will order out-of-stock products. This will only proceed to a reservation of the products. They will be delivered and invoiced only when in stock.">
+<cancel "Abbrechen">
+<ok "OK">
+<delete "Löschen">
+<deleteonelist "Wollen Sie diese Produkte wirklich löschen ?">
+<deletealllist "Wollen Sie diese Produkte wirklich löschen ?">
+<deleteout "SWollen Sie alle ausverkaufte Produkte löschen ?">
+
+/* pakeagedetail */
+<trackingmethod "Tracking Method:">
+<trackingnum "Tracking NUM:">
+<trackinglink "Tracking Link:">
+
+
+/* address */
+<eidt "Editieren">
+<setdefault "Betriebsart">
+<addaddress "Erfolgreich hinzugefügt">
+<editaddress "Edit Address">
+<shippingcountry "Lieferland:">
+<shippingstate "Auslieferungszustand:">
+<shippingcity "Stadt Lieferung:">
+<shipping_address "Lieferadresse:">
+<shippingzip "Postleitzahl der Rechnungsadresse:">
+<shippingphone "Telefon:">
+<shippingmobile "Handy:">
+<billing_address "Rechnungsadresse:">
+
+<billingcountry "Abrechnungsland:">
+<billingstate "Abrechnungsprovinz:">
+<billingcity "Abrechnungstadt:">
+<billingzip "Abrechnungspostleitzahl:">
+<billingphone "Telefon:">
+<billingmobile "Handy:">

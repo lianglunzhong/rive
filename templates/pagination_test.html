@@ -1,0 +1,67 @@
+{% extends "template.html" %}
+{% block content %}
+
+<br><br>
+<div>
+	分页测试
+</div>
+
+<br>
+<br>
+<br>
+<input type="hidden" id="page_id" name="page_id" value="{{ page_id }}">
+<div class="M-box1"></div>
+<br><br><br>
+<div>
+	<span>lalala {{ product.id }} lalala</span>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajaxSetup({
+      		data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    	});
+
+    	var page_id = $("#page_id").val();
+
+		$('.M-box1').pagination({
+		    totalData:100,
+		    showData:5,
+		    coping:true,
+		    current:page_id,
+		    callback:function(api){
+		    	var page_id = api.getCurrent();
+		    	var type = 'pagination_search';
+		    	console.log(page_id);
+		    	$.ajax({
+		    		type: "post",
+		    		data: {type:type,page_id:page_id},
+		    		utl: "{% url 'pagination' %}",
+		    		cache: false,
+		    		dataType: 'html',
+		    		success:function(data){
+		    			alert('success');
+		    		},
+		    		error:function(){
+		    			alert('false');
+		    		},
+		    	});
+		    },
+		});
+	});
+	
+</script>
+
+<input id="hello3" class="laydate-icon" >
+<script>
+laydate({
+  elem: '#hello3',
+  min: laydate.now(), //-1代表昨天，-2代表前天，以此类推
+  // max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+});
+</script>
+
+
+
+<br><br><br><br><br><br><br><br>
+{% endblock %}

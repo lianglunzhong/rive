@@ -1,0 +1,112 @@
+//
+// wanglong
+// --------------------------------------------------
+.pro-table{
+	margin-top: 10px;
+	.table{
+		margin-bottom: 10px;
+		th{
+			border-bottom-width:1px;
+			border-color:#b7d1d0;
+			padding:2px 0;
+			background-color: #ecf4f4;
+			display: table-cell;
+    		vertical-align:middle;
+		}
+		td{
+			display: table-cell;
+    		vertical-align:middle;
+			&.t-left{
+    			text-align: left;
+    		}
+    		&.info{
+				color: #357cba;
+    		}
+    		&.details{
+				color: $gray;
+				span{
+					color: $gray;
+					position: relative; 
+					line-height: 1.8rem; 
+					max-height: 3.6rem;
+					overflow: hidden;
+					display: block;
+					&::after{
+						content: "..."; 
+						position: absolute;
+						bottom: 0; 
+						right: 0;
+						}
+				}
+				a{
+					float: right;
+					display: inline-block;
+					color: #8ab1b6;
+					border:none;
+				}
+				
+    		}
+    		&.trash{
+    			a{
+    				color:#666;
+    			}
+    		}
+    		.fa{
+    			font-size: 28px;
+    		}
+    		.fa-circle{
+    			color:#2d6b48;
+    		}
+    		.out{
+    			color:#ff0000;
+    		}
+    		.in-stock{
+    			display: inline-block;
+    		}
+    		.fa-plus-circle{
+    			color: #999999;
+    			font-size: 20px;
+    		}
+    		.fa-minus-circle{
+    			color:#ccc;
+    			font-size: 20px;
+    		}
+    		.form-control{
+    			width: 60px;
+    			display: inline-block;
+    			height: 28px;
+    			line-height: 28px;
+    		}
+    		.add{
+    			font-size: 28px;
+    			color: #8ab1b6;
+    		}
+    		.fa-exclamation-circle{
+    			color: #aaa;
+    		}
+		}
+
+		.img-thumbnail{
+			max-height: 70px;
+			border:1px solid #ccc;
+		}
+	}
+	.pag{
+		border-bottom: 1px solid #ccc;
+		overflow: hidden;
+		padding-bottom: 10px;
+		input[type=checkbox]{
+			margin-right:5px;
+		}
+		.delete{
+			a{
+				color: $gray-darker;
+				margin-right: 20px;
+				.fa{
+					margin-right: 5px;
+				}
+			}
+		}
+	}	
+}
+	

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title></title>
+		<link rel="stylesheet" href="/static/assets/css/style.css">
+    <script src="/static/assets/js/jquery-1.8.2.min.js"></script>
+    <script src="/static/assets/js/jquery.print.js"></script>
+
+    <!-- L20n setup -->
+    <script src="/static/assets/js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+      function setLang (lang) { 
+        $.cookie('lang', lang,  { path: '/' });
+        window.location.reload();
+      }
+      var lang = $.cookie('lang') || 'en-US';
+      document.write("<link rel='localization' href='/static/assets/locales/"+lang+".json'>");
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="/static/assets/js/l20n.js"></script>
+	</head>
+
+	<body>
+    <div class="page" id="print_content">
+      <div class="main">
+        <div class="container" style="width:625px;">
+          <div class="row print">
+            <div class="col-xs-12">
+              <div class="p-box">
+                <div class="p-logo">
+                  <img src="/static/assets/images/logo.png">
+                </div>
+                <form class="form-horizontal" role="form">
+                  <div class="order-info">
+                    <div class="col-xs-4" data-l10n-id="orderinformation">Order Information</div>
+                    <div class="col-xs-8">NO. {{ order.ordernum }}</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="erpnum">ERP NUM:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ order.erp_num }}</p>
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="orderstatus">Status:</label>
+                    <div class="col-xs-8">
+                      {% for key, value in status.items %}
+                        {% if key == order.status %}
+                          <p class="form-control-static">{{ value }}</p>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="createtime2">Create time:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ order.created }}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="creater">Creater:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ customer_name }}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="shipping_address">Shipping Address:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ shipping_address }}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="billing_address">Billing Address:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ billing_address }}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="sdate2">Expected shipping date:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ expcted_shipping }}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-xs-4 control-label" data-l10n-id="comment2">Comment:</label>
+                    <div class="col-xs-8">
+                      <p class="form-control-static">{{ order.massage }}</p>
+                    </div>
+                  </div>
+                </form>
+                {% if orderitems %}
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th style="width:18%;" data-l10n-id="productinfo">Product info.</th>
+                        <th style="width:28%"> </th>
+                        <th style="width:18%" data-l10n-id="ref">Ref.</th>
+                        <th style="width:18%" data-l10n-id="price">Price</th>
+                        <th style="width:18%" data-l10n-id="qty">QTY</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for orderitem in orderitems %}
+                        <tr>
+                          {% for key, value in images.items %}
+                            {% if key == orderitem.id %}
+                              {% if value %}
+                                <td><img src="/site_media/{{ value }}" alt="" class="img-thumbnail" onerror="this.src='/static/assets/images/no_picture.png'"></td>
+                              {% else %}
+                                <td><img src="/static/assets/images/no_picture.png" alt="" class="img-thumbnail"></td>
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}                 
+                          <td class="t-left info">{{ orderitem.name }}</td>
+                          <td>{{ orderitem.sku }}</td>
+                          <td>{{ orderitem.price }} {{ code }}</td>
+                          <td>{{ orderitem.quantity }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <div class="order-play">
+                    <ul class="pay">
+                      <li><span class="label" data-l10n-id="summary">Summary</span><span class="static">{{ order.amount }} {{ code }}</span></li>
+                      <li><span class="label" data-l10n-id="shipping">Shipping</span><span class="static">00.00 {{ code }}</span></li>
+                      <li><span class="label" data-l10n-id="totalprice">Total price</span><span class="static total">{{ order.amount }} {{ code }}</span></li>
+                    </ul>
+                  </div >
+                {% endif %}
+                {% if order.imgorder %}
+                <br><br>
+                  <div>
+                    <img src="/site_media/{{ order.imgorder }}" onerror="this.src='/static/assets/images/no_picture.png'">
+                  </div>
+                {% endif %}
+              </div>             
+            </div>
+          </div>
+        </div>    
+      </div>
+    </div>
+    <script type="text/javascript">
+      /*
+       *页面加载完成之后自动触发打印
+       */
+      $(document).ready(function(){
+        $("#print_content").print(/*options*/);
+      });
+    </script>
+	</body>
+</html>

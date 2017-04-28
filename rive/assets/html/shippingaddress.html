@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-1.8.2.min.js"></script>
+    <!-- L20n setup -->
+    <script src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    function setLang (lang) {
+      $.cookie('lang', lang)
+      window.location.reload()
+    }
+    var lang = $.cookie('lang') || 'en-US';
+    document.write("<link rel='localization' href='../locales/"+lang+".json'>")
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="../js/l20n.js"></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="list-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="logo"><a href=""><img src="../images/logo.png" alt=""></a></div>
+            </div>
+            <div class="col-xs-6">
+              <ul class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="#" data-l10n-id="products"></a></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderlist"></a><span class="badge">42</span></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderhistory"></a></li>  
+              </ul>
+            </div>
+            <div class="col-xs-2 welcome">
+              <div class="fll mr10" data-l10n-id="wel"></div><div class="fll">Luca!</div><a href=""><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="main">
+        <div class="container">
+          <div class="row">
+            <div class=" order-detail" style="background-color:#fff;">
+              <div class="col-xs-12">
+                <div class="place-order" style="padding-right: 0px; background-color: #fff; border-right:none;">
+                  <div class="title" data-l10n-id="saddress"></div>
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <style type="text/css">
+                        .form-group .row{margin-bottom: 10px;}
+                        .form-group .col-xs-2 a{color:#8ab1b6}
+                        .form-group .col-xs-3 a{color:#8ab1b6}
+                        .form-group .col-xs-4 a{color:#8ab1b6}
+                        .form-group .col-xs-offset-1 a{color:#ff6600}
+                        .form-group .col-xs-12{ border-bottom: 1px solid #dddddd; margin:0 4.7%; width: auto ;padding:0px;}
+                        .form-group .col-xs-9{float:right; border-bottom: 1px solid #dddddd}
+                        .form-group .col-xs-9:nth-last-child(1){border-bottom:none}
+                        .form-group .col-xs-9 .col-xs-1{padding: 0px; width: 4%}
+                        .form-group .col-xs-9 .col-xs-11{padding: 0px; width: 95%}
+                        .form-group .col-xs-9 .col-xs-1 input{margin-top:14px;}
+                        .form-group .tleft{ overflow: hidden;text-align: left; margin:0 4.2%; padding-top: 30px;}
+                        .address .form-group input.error{border: 1px solid #ff9999; box-shadow: 0px 0px 8px #ff9999; color:#666;}
+                        .address .form-group .error{color:#f30}
+                        .address .form-control{text-align:right;}
+                        .mb5{ margin-bottom: 5px;}
+                        .mb10{ margin-bottom: 10px;}
+                        .mb15{ margin-bottom: 15px;}
+                        .mb20{ margin-bottom: 20px;}
+                        .mt5{ margin-top: 5px;}
+                        .mt10{ margin-top: 10px;}
+                        .mt15{ margin-top: 15px;}
+                        .mt20{ margin-top: 20px;}
+                      </style>
+                      <div class="col-xs-12">
+                        <div class="col-xs-6 mb20">
+                            <p class="form-control-static">Luca, +01 133123490411541 avenue Marcel Merieux,69280 MARCY L·ETOILE,France</p>
+                            <div>
+                              <div class="col-xs-4"><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-rec"><i class="fa fa-pencil-square-o mr10" aria-hidden="true"></i>Edit</a></div>
+                              <div class="col-xs-4"><a href="javascript:void(0);"><i class="fa fa-trash-o mr10" aria-hidden="true"></i>Delete</a></div>
+                            </div>
+                        </div> 
+                        <div class="col-xs-6 mb20">
+                            <p class="form-control-static">Luca, +01 133123490411541 avenue Marcel Merieux,69280 MARCY L·ETOILE,France</p>
+                            <div>
+                              <div class="col-xs-4"><a href="" ><i class="fa fa-pencil-square-o mr10" aria-hidden="true"></i>Edit</a></div>
+                              <div class="col-xs-4"><a href="" ><i class="fa fa-trash-o mr10" aria-hidden="true"></i>Delete</a></div>
+                              <div class="col-xs-offset-1 col-xs-3"><a href="">Set Default</a></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 mb20">
+                            <p class="form-control-static">Luca, +01 133123490411541 avenue Marcel Merieux,69280 MARCY L·ETOILE,France</p>
+                            <div>
+                              <div class="col-xs-4"><a href="" ><i class="fa fa-pencil-square-o mr10" aria-hidden="true"></i>Edit</a></div>
+                              <div class="col-xs-4"><a href="" ><i class="fa fa-trash-o mr10" aria-hidden="true"></i>Delete</a></div>
+                              <div class="col-xs-offset-1 col-xs-3"><a href="">Set Default</a></div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer tleft">
+                        <button type="button" class="btn btn-primary btn-sm model" data-toggle="modal" data-target="#myModal-rec"><i class="fa fa-plus mr10" aria-hidden="true"></i>Add</a></button>
+                        <button type="submit" class="btn btn-primary btn-sm" data-l10n-id="ok"></button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+      <footer class="footer">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="country">
+                <a onclick="setLang('en-US')" href="javascript:void(0);"><img src="../images/EN.jpg" alt=""></a>
+                <a onclick="setLang('fr')" href="javascript:void(0);"><img src="../images/FA.jpg" alt=""></a>
+                <a onclick="setLang('uk')" href="javascript:void(0);"><img src="../images/UK.jpg" alt=""></a>
+                <a onclick="setLang('de')" href="javascript:void(0);"><img src="../images/GE.jpg" alt=""></a>
+                <select class="currency">
+                  <option>EUR</option>
+                  <option>CHF</option>
+                  <option>USD</option>
+                  <option>GBP</option>
+                </select>
+              </div>
+
+              <div class="contant ft2">
+                <a class="under" href="" data-l10n-id="back"></a>
+                <a class="download" href="" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal-rec" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalLabel">Add Address</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal address loginform">
+                <div class="form-group mb15">
+                  <label for="inputEmail3" class="col-sm-5 control-label">Shipping Country:</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control"  placeholder="Country" name="Country">
+                  </div>
+                </div>
+                <div class="form-group mb15">
+                  <label for="inputPassword3" class="col-sm-5 control-label">Shipping State/Province:</label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control"  placeholder="State" name="State">
+                  </div>
+                </div>
+                <div class="form-group mb15">
+                  <label for="inputPassword3" class="col-sm-5 control-label">Shipping City:</label>
+                  <div class="col-sm-7">
+                    <input type="password" class="form-control"  placeholder="City" name="City">
+                  </div>
+                </div>
+                <div class="form-group mb15">
+                  <label for="inputPassword3" class="col-sm-5 control-label">Shipping Address:</label>
+                  <div class="col-sm-7">
+                    <input type="password" class="form-control"  placeholder="Address" name="Address">
+                  </div>
+                </div>
+                <div class="form-group mb15">
+                  <label for="inputPassword3" class="col-sm-5 control-label">Shipping Zip/Postal Code:</label>
+                  <div class="col-sm-7">
+                    <input type="password" class="form-control"  placeholder="Zip" name="Zip">
+                  </div>
+                </div>
+                <div class="form-group mb15">
+                  <label for="inputPassword3" class="col-sm-5 control-label">Shipping Home Phone:</label>
+                  <div class="col-sm-7">
+                    <input type="password" class="form-control"  placeholder="Home Phone" name="Phone">
+                  </div>
+                </div>
+                <div class="form-group mb15">
+                  <label for="inputPassword3" class="col-sm-5 control-label">Mobile:</label>
+                  <div class="col-sm-7">
+                    <input type="password" class="form-control"  placeholder="Mobile" name="Mobile">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+                  <button type="submit" class="btn btn-primary btn-sm" data-l10n-id="ok"></button>
+                </div>
+              </form>
+            </div>  
+          </div>
+        </div>
+      </div> 
+    </div>
+	</body>
+  <script src="../js/common.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/plugin.js"></script>
+  <script src="../js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript">
+        var d = new Date();
+        var ondate = d.getUTCFullYear()+"-"+d.getUTCMonth()+"-"+d.getUTCDate();
+        $('.form_datetime').datetimepicker({  
+            weekStart: 0,
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0, 
+            startDate:ondate
+        });
+    </script>
+  <script>
+    $(".loginform").validate({
+        rules: {
+            Country: {
+                required: true,
+                minlength: 5,
+                maxlength:50
+            },
+            State: {
+                required: true,
+                minlength: 5,
+                maxlength:50
+            },
+            City: {
+                required: true,
+                minlength: 5,
+                maxlength:50
+            },
+            Address: {
+                required: true,
+                minlength: 5,
+                maxlength:200
+            },
+            Zip: {
+                required: true,
+                minlength: 5,
+                maxlength:20
+            },
+            Phone: {
+                required: true,
+                minlength: 5,
+                maxlength:20
+            },
+            Mobile: {
+                required: true,
+                minlength: 5,
+                maxlength:20
+            }
+        },
+        messages: {
+            Country: {
+                required: "Please provide a Country.",
+                minlength: "Your country must be at least 5 characters long.",
+                maxlength: "The country exceeds maximum length of 50 characters."
+            },
+            State: {
+                required: "Please provide a state.",
+                minlength: "Your state must be at least 5 characters long.",
+                maxlength: "The state exceeds maximum length of 50 characters."
+            },
+            City: {
+                required: "Please provide a city.",
+                minlength: "Your city must be at least 5 characters long.",
+                maxlength: "The city exceeds maximum length of 50 characters."
+            }
+            ,
+            Address: {
+                required: "Please provide a address.",
+                minlength: "Your address must be at least 5 characters long.",
+                maxlength: "The address exceeds maximum length of 200 characters."
+            }
+            ,
+            Zip: {
+                required: "Please provide a zip.",
+                minlength: "Your zip must be at least 5 characters long.",
+                maxlength: "The zip exceeds maximum length of 20 characters."
+            }
+            ,
+            Phone: {
+                required: "Please provide a home phone.",
+                minlength: "Your home phone must be at least 5 characters long.",
+                maxlength: "The home phone exceeds maximum length of 20 characters."
+            }
+            ,
+            Mobile: {
+                required: "Please provide a moblie.",
+                minlength: "Your moblie must be at least 5 characters long.",
+                maxlength: "The moblie exceeds maximum length of 20 characters."
+            }
+
+        }
+
+    });
+  </script>
+</html>

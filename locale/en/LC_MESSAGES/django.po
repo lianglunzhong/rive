@@ -1,0 +1,214 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-04 11:38+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\accounts\admin.py:32
+msgid "change password"
+msgstr ""
+
+#: .\accounts\admin.py:39 .\accounts\models.py:13
+msgid "Password"
+msgstr ""
+
+#: .\accounts\admin.py:51
+msgid "Discount"
+msgstr ""
+
+#: .\accounts\models.py:12
+msgid "Email"
+msgstr ""
+
+#: .\accounts\models.py:14
+msgid "Firstname"
+msgstr ""
+
+#: .\accounts\models.py:15
+msgid "Lastname"
+msgstr ""
+
+#: .\accounts\models.py:16
+msgid "discount"
+msgstr ""
+
+#: .\accounts\models.py:19
+msgid "Admin"
+msgstr ""
+
+#: .\accounts\models.py:20 .\accounts\models.py:77 .\accounts\models.py:92
+msgid "Create"
+msgstr ""
+
+#: .\accounts\models.py:21 .\accounts\models.py:78 .\accounts\models.py:93
+msgid "Update"
+msgstr ""
+
+#: .\accounts\models.py:24 .\accounts\models.py:25
+msgid "Shop keepers"
+msgstr ""
+
+#: .\accounts\models.py:60
+msgid "Shipping Country"
+msgstr ""
+
+#: .\accounts\models.py:61
+msgid "Shipping State/Province"
+msgstr ""
+
+#: .\accounts\models.py:62
+msgid "Shipping City"
+msgstr ""
+
+#: .\accounts\models.py:63
+msgid "Shipping Address"
+msgstr ""
+
+#: .\accounts\models.py:64
+msgid "Shipping Zip/Postal code"
+msgstr ""
+
+#: .\accounts\models.py:65
+msgid "Shipping Home Phone"
+msgstr ""
+
+#: .\accounts\models.py:66
+msgid "Mobile"
+msgstr ""
+
+#: .\accounts\models.py:69
+msgid "Billing Country"
+msgstr ""
+
+#: .\accounts\models.py:70
+msgid "Billing State/Province"
+msgstr ""
+
+#: .\accounts\models.py:71
+msgid "Billing City"
+msgstr ""
+
+#: .\accounts\models.py:72
+msgid "Billing Address"
+msgstr ""
+
+#: .\accounts\models.py:73
+msgid "Billing Zip/Postal code"
+msgstr ""
+
+#: .\accounts\models.py:74
+msgid "Billing Home Phone"
+msgstr ""
+
+#: .\accounts\models.py:75
+msgid "Billing Mobile"
+msgstr ""
+
+#: .\accounts\models.py:81 .\accounts\models.py:82
+msgid "Address"
+msgstr ""
+
+#: .\accounts\models.py:89
+msgid "Name"
+msgstr ""
+
+#: .\accounts\models.py:90
+msgid "Code"
+msgstr ""
+
+#: .\accounts\models.py:91
+msgid "Rate"
+msgstr ""
+
+#: .\accounts\models.py:96
+msgid "Currency"
+msgstr ""
+
+#: .\accounts\models.py:97
+msgid "Currencies"
+msgstr ""
+
+#: .\project\settings.py:136
+msgid "English"
+msgstr ""
+
+#: .\project\settings.py:137
+msgid "French"
+msgstr ""
+
+#: .\templates\admin\base.html:30
+msgid "Welcome,"
+msgstr ""
+
+#: .\templates\admin\base.html:35
+msgid "View site"
+msgstr ""
+
+#: .\templates\admin\base.html:40
+msgid "Documentation"
+msgstr ""
+
+#: .\templates\admin\base.html:44
+msgid "Change password"
+msgstr ""
+
+#: .\templates\admin\base.html:46
+msgid "Sign out"
+msgstr ""
+
+#: .\templates\admin\base.html:56 .\templates\base_header.html.py:11
+#: .\templates\registration\logged_out.html:4
+msgid "Home"
+msgstr ""
+
+#: .\templates\admin\base_site.html:5
+msgid "Django site admin"
+msgstr ""
+
+#: .\templates\admin\login.html:21
+msgid "Please correct the error below."
+msgstr ""
+
+#: .\templates\admin\login.html:21
+msgid "Please correct the errors below."
+msgstr ""
+
+#: .\templates\admin\login.html:37
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: .\templates\admin\login.html:57
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: .\templates\admin\login.html:61
+msgid "SIGN IN"
+msgstr ""
+
+#: .\templates\base_header.html:15
+msgid "当前页面"
+msgstr ""
+
+#: .\templates\registration\logged_out.html:8
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr ""
+
+#: .\templates\registration\logged_out.html:10
+msgid "Sign in again"
+msgstr ""

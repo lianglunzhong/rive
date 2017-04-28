@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-1.8.2.min.js"></script>
+    <!-- L20n setup -->
+    <script src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    function setLang (lang) {
+      $.cookie('lang', lang)
+      window.location.reload()
+    }
+    var lang = $.cookie('lang') || 'en-US';
+    document.write("<link rel='localization' href='../locales/"+lang+".json'>")
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="../js/l20n.js"></script>
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="list-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="logo"><a href=""><img src="../images/logo.png" alt=""></a></div>
+            </div>
+            <div class="col-xs-6">
+              <ul class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="#" data-l10n-id="products"></a></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderlist"></a><span class="badge">42</span></li>
+                <li role="presentation"><a href="#" data-l10n-id="orderhistory"></a></li>  
+              </ul>
+            </div>
+            <div class="col-xs-2 welcome">
+              <div class="fll mr10" data-l10n-id="wel"></div><div class="fll">Luca!</div><a href=""><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="main">
+        <div class="container">
+          <div class="row">
+            <div class=" order-detail">
+              <div class="col-xs-8">
+                <div class="place-order">
+                  <div class="title" data-l10n-id="placeorder"></div>
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <label class="col-xs-3 control-label" data-l10n-id="saddress"></label>
+                      <div class="col-xs-9">
+                        <p class="form-control-static">Luca, +01 133123490411541 avenue Marcel Merieux,69280 MARCY L·ETOILE,France</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-xs-3 control-label" data-l10n-id="baddress"></label>
+                      <div class="col-xs-9">
+                        <p class="form-control-static">Luca, +01 133123490411541 avenue Marcel Merieux,69280 MARCY L·ETOILE,France</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label  class="col-xs-3 control-label" data-l10n-id="sdate"></label>
+                      <div class="input-group date form_datetime col-xs-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input1" style="padding:7px 15px 0 15px;">
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="fa fa-remove"></span></span>
+                        <span class="input-group-addon"><span class="fa fa-th"></span></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label  class="col-xs-3 control-label" data-l10n-id="comment"></label>
+                      <div class="col-xs-9">
+                        <textarea class="form-control" rows="10"></textarea>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <div class="order-list">
+                  <ul class="list-box">
+                    <li>
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span><span class="out">Out of stock</span></div>
+                    </li>
+                    <li>
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </li>
+                    <li>
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </li>
+                    <li>
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </li>
+                    <li>
+                      <div class="img"><img src="../images/367225.jpg" alt=""></div>
+                      <div class="title">sweat capuche zip noir aqua L</div>
+                      <div class="price"><span>23.00 €</span><span>100</span></div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="order-play">
+                  <ul class="pay">
+                    <li><span class="label" data-l10n-id="summary"></span><span class="static">13.800.00 €</span></li>
+                    <li><span class="label" data-l10n-id="shipping"></span><span class="static">50.00 €</span></li>
+                    <li><span class="label" data-l10n-id="totalprice"></span><span class="static total">13.800.00 €</span></li>
+                  </ul>
+                  <div class="add">
+                    <button type="button" class="btn btn-primary btn-sm" data-l10n-id="placeorder"></button>
+                  </div>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+      <footer class="footer">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="country">
+                <a onclick="setLang('en-US')" href="javascript:void(0);"><img src="../images/EN.jpg" alt=""></a>
+                <a onclick="setLang('fr')" href="javascript:void(0);"><img src="../images/FA.jpg" alt=""></a>
+                <a onclick="setLang('uk')" href="javascript:void(0);"><img src="../images/UK.jpg" alt=""></a>
+                <a onclick="setLang('de')" href="javascript:void(0);"><img src="../images/GE.jpg" alt=""></a>
+                <select class="currency">
+                  <option>EUR</option>
+                  <option>CHF</option>
+                  <option>USD</option>
+                  <option>GBP</option>
+                </select>
+              </div>
+
+              <div class="contant ft2">
+                <a class="under" href="" data-l10n-id="back"></a>
+                <a class="download" href="" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer> 
+    </div>
+	</body>
+  <script src="../js/common.js"></script>
+  <script src="../js/plugin.js"></script>
+  <script src="../js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript">
+        var d = new Date();
+        var ondate = d.getUTCFullYear()+"-"+d.getUTCMonth()+"-"+d.getUTCDate();
+        $('.form_datetime').datetimepicker({  
+            weekStart: 0,
+            todayBtn: true,
+            autoclose: true,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0, 
+            startDate:ondate
+        });
+    </script>
+</html>

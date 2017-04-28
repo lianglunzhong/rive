@@ -1,0 +1,811 @@
+{% extends "template.html" %}
+{% block content %}
+<div class="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 pro-table">
+      <!--用户id获取-->
+        <input type="hidden" id="customer_id" value="{{ customer.id }}">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th style="width:4%"><input class="allCheck" type="checkbox" onchange="count_checked()"></th>
+              <th style="width:10%" data-l10n-id="select"></th>
+              <th style="width:12%;text-align:left" data-l10n-id="proinfo"></th>
+              <th style="width:10%" data-l10n-id="ref"></th>
+              <th style="width:24%;text-align:left" data-l10n-id="details"></th>
+              <th style="width:8%" data-l10n-id="stock"></th>
+              <th style="width:12%" data-l10n-id="price"></th>
+              <th style="width:12%" data-l10n-id="quantity"></th>
+              <th style="width:8%" data-l10n-id="action"></th>
+            </tr>
+          </thead>
+        {% if cartitems %}
+          <tbody id="checkList">
+            {% for cartitem in cartitems %}
+            <tr>
+              <td><input type="checkbox" value="{{ cartitem.id }}" onchange="count_checked()"></td>
+              {% for key, value in images.items %}
+                  {% if key == cartitem.product_id %}
+                      {% if value %}
+                        <td><a href="javascript:void(0)" onclick="image_view_a2({{ cartitem.product_id }})"><img src="/site_media/{{ value }}" alt="" class="img-thumbnail" onerror="this.src='/static/assets/images/no_picture.png'"></a><a style="display: none;" id="image_view_btn{{ cartitem.product_id }}" data-toggle="modal" data-target="#image_views"></a></td>
+                      {% else %}
+                        <td><a href="javascript:void(0)"><img src="/static/assets/images/no_picture.png" alt="" class="img-thumbnail"></a></td>
+                      {% endif %}
+                  {% endif %}
+                {% endfor %}
+              <td class="t-left info">{{ cartitem.name }}</td>
+              <td>{{ cartitem.sku }}</td>
+              <td class="t-left details">
+                <span id="product_description_{{ cartitem.product_id }}">{{ cartitem.description }}</span>
+                <div id="product_description_a_{{ cartitem.product_id }}" style="display: none;">
+                  ......
+                  <a href="javascript:void(0)" tabindex="0" class="js-popover" role="button" data-toggle="popover" data-trigger="focus" title="Details" data-content="{{ cartitem.description }}">view more</a>
+                </div>
+              </td>
+              {% if cartitem.stock != 0 %}
+                {% if cartitem.stock == 1 %}
+                  <td>
+                    {% if lang == 'fr' %}
+                      <a href="javascript:void(0)" title="En stock"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% elif lang == 'de' %}
+                      <a href="javascript:void(0)" title="Im Lager"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% elif lang == 'nl' %}
+                      <a href="javascript:void(0)" title="in stock"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% else %}
+                      <a href="javascript:void(0)" title="in stock"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% endif %}
+                  </td>
+                {% else %}
+                  <td>
+                    {% if lang == 'fr' %}
+                      <a href="javascript:void(0)" title="En stock"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% elif lang == 'de' %}
+                      <a href="javascript:void(0)" title="Im Lager"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% elif lang == 'nl' %}
+                      <a href="javascript:void(0)" title="in stock"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% else %}
+                      <a href="javascript:void(0)" title="in stock"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% endif %}
+                  <span style="font-size: 12px;line-height: initial;background: #f5f5f5;color: #666;display: inline-block;"><span data-l10n-id="deliverydate"></span><br>{{ est_date }}</span></td>
+                {% endif %}
+              {% else %}
+                {% if cartitem.expected_time %}
+                  {% for cid, time in expected_times.items %}
+                    {% if cid == cartitem.id %}
+                      <td>
+                        {% if lang == 'fr' %}
+                          <a href="javascript:void(0)" title="Qté limité ou en rupture&#10;Date d'arrivage estimée: {{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                        {% elif lang == 'de' %}
+                          <a href="javascript:void(0)" title="Begrenzte oder ausverkaufte Menge&#10;Versand fertig: {{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                        {% elif lang == 'nl' %}
+                          <a href="javascript:void(0)" title="limited or out of stock&#10;expected in-stock date: {{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                        {% else %}
+                          <a href="javascript:void(0)" title="limited or out of stock&#10;expected in-stock date: {{ time }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                        {% endif %}
+                      </td>
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                  <td>
+                    {% if lang == 'fr' %}
+                      <a href="javascript:void(0)" title="Qté limité ou en rupture"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                    {% elif lang == 'de' %}
+                      <a href="javascript:void(0)" title="Begrenzte oder ausverkaufte Menge"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                    {% elif lang == 'nl' %}
+                      <a href="javascript:void(0)" title="limited or out of stock"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                    {% else %}
+                      <a href="javascript:void(0)" title="limited or out of stock"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></a>
+                    {% endif %}
+                  </td>
+                  <!-- <td> <a href="javascript:void(0)" title="out of stock"><i class="fa fa-circle out" aria-hidden="true"></i></a></td> -->
+                {% endif %}
+              {% endif %}
+              <td>{{ cartitem.price }} {{ code }}<input type="hidden" id="price_{{ cartitem.product_id }}" value="{{ cartitem.price }}">
+              </td>
+              <td>
+                <a href="javascript:void(0)" onclick="order_list_minus({{ cartitem.product_id }})"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                  <input type="text" class="form-control JS-qty" id="product_{{ cartitem.product_id }}" value="{{ cartitem.quantity }}" onchange="change_qty({{ cartitem.product_id }})">
+                <a href="javascript:void(0)" onclick="order_list_plus({{ cartitem.product_id }})"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+              </td>
+              <td class="trash"><a href="javascript:void(0)" title="Delete from Order list" onclick="delete_one({{ cartitem.id }})" data-toggle="modal" data-target="#delete_one" style="cursor: pointer;"><i class="fa fa-trash-o" style="margin-top: 4.5px;" aria-hidden="true"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        {% endif %}
+        </table>
+        {% if cartitems %}
+          <div class="pag" style="line-height: 39px;">
+            <div style="padding-top: 5px; float: left;">
+              <input class="allCheck" type="checkbox" id="allcheck2" onchange="count_checked()"><label for="allcheck2" style="cursor: pointer;font-weight: normal;" data-l10n-id="selectall"></label>                    
+            </div>
+            <div class="delete" style="padding-top: 5px;padding-left: 10px; float: left;">
+              <a href="javascript:void(0)" onclick="delete_all()" id="delete_all_a" data-toggle="modal" data-target="" style="cursor: pointer;"><i class="fa fa-minus-circle" aria-hidden="true"></i><span data-l10n-id="dellist"></span></a>
+              <a href="javascript:void(0)" data-toggle="modal" data-target="#delete_out_of_stock" style="cursor: pointer;"><i class="fa fa-minus-circle" aria-hidden="true"></i><span data-l10n-id="delout"></span></a>
+            </div>
+            <div style="padding-top: 5px;float: left;padding-left: 5px;">
+              <li style="float: left; list-style-type:none;"><span data-l10n-id="choseditem"></span><span id="count_checked_num">&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+              <li style="float: left; list-style-type: none; margin-right: 12px"><span data-l10n-id="totalitems"></span>&nbsp;&nbsp;{{ number }} </li>
+                <li style="float: left; list-style-type: none; line-height: 37px"><span data-l10n-id="totalamount"></span><b style="font-size:18px; margin-left:10px"><span id="total_amount">{{ total_amount }}</span>{{ code }}</b></li>
+            </div>
+            <div class="add" style="margin-top:0px;;float:right;">
+            <!--用于保存选择的产品id并提交到order-detail -->
+              <form method="post" action="{% url 'order_detail' %}" style="display: none;">
+                {% csrf_token %}
+                  <input type="hidden" name="type" value="order_detail">
+                  <input type="hidden" id="customerid" name="customerid" value="">
+                  <input type="hidden" id="cartitemid" name="cartitemid" value="">
+                  <input type="submit" id="to_order_detail">
+              </form>
+              <button onclick="process_order()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="" id="process_btn" data-l10n-id="process"></button>
+            </div>
+          </div>
+        {% endif %}
+        {% if not cartitems %}
+          <div data-l10n-id="notorderlist"></div>
+        {% endif %}
+        <div style="display: none;" id="message_output" class="message_outbox">  
+          <div class="message_content" ><br><label id="message_output_content">Changed product qty success !</label></div>  
+        </div>
+        <div>
+          <!--购物车库存限制产品id-->
+          <input type="hidden" id="stock_id" value="{{ stock_id }}">
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body">
+        <p data-l10n-id="outofstock"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+        <button type="button" onclick="process_order_ok()" class="btn btn-primary btn-sm" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--图片弹窗（新） -->
+<a data-toggle="modal" data-target="#myModa2" href="javascript:void(0)" id="test_model" style="display: none;">test</a>
+<div class="modal fade " id="myModa2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      </div>
+      <div id="slider">
+        <style>
+          .m-info{background-color: #fafafa; line-height: 30px;color:#aaa; padding:15px;}
+          .m-info .col-xs-6 span,.m-info .col-xs-12 span{color:#333; padding-left:10px;}
+        </style>
+        <div id="slides_clearfix">
+          <ul class="slides clearfix" style="position: relative;width: 100%;">
+            <li>
+              <img class="responsive" src="/static/assets/images/img/1.jpg">
+              <div class="m-info">
+                <div class="row">
+                  <div class="col-xs-6">Ref.: <span> 11 89 22</span></div>
+                  <div class="col-xs-6">Price:<span>125.6€</span></div>
+                  <div class="col-xs-12">Product Name:<span>ST8 HSP D36 INFERNO CHARIOT + ACCESS</span></div>
+                  <div class="col-xs-12">Details:<span>OPEN ST-HSP PACK MANGO / NOIR TAV C T AMOV ELEPHANT N/MANGO</span></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <ul class="controls" id='image_controls' style="display: none;">
+          <li style="top:260px;"><img src="/static/assets/images/img/prev.png" alt="previous"></li>
+          <li style="top:260px;"><img src="/static/assets/images/img/next.png" alt="next"></li>
+        </ul>
+        <!-- <ul class="paginations" style="bottom:0">
+          <li class="active"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul> -->
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $("#slider").easySlider( {
+      slideSpeed: 500,
+      paginationSpacing: "15px",
+      paginationDiameter: "12px",
+      paginationPositionFromBottom: "20px",
+      slidesClass: ".slides",
+      controlsClass: ".controls",
+      paginationClass: ".pagination"          
+    });
+  });
+</script>
+
+<!--页面所有产品id -->
+<input type="hidden" id="product_ids" value="{{ product_ids }}">
+<script>
+  $(function () {
+    $('.js-popover').popover();
+  })
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    //获取购物车里面所有产品id
+    var product_ids = $("#product_ids").val();
+    //把字符串转化为数组
+    product_ids = product_ids.split(',');
+
+    $.each(product_ids, function(k,v){
+      var description = $("#product_description_"+v).html();
+      if(description && description.length > 100){
+        $("#product_description_a_"+v).show();
+      }
+    });
+  });
+</script>
+
+<!-- 删除单个产品确认弹窗 -->
+<div class="modal fade" id="delete_one" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="deleteonelist"></p>
+      </div>
+      <input type="hidden" id="delete_one_product" value="">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+        <button type="button" onclick="delete_one_ok()" class="btn btn-primary btn-sm"><span data-l10n-id="delete"></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 通过勾选的方式删除单个或多个产品确认弹窗 -->
+<div class="modal fade" id="delete_all" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="deletealllist"></p>
+      </div>
+      <input type="hidden" id="delete_one_product" value="">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+        <button type="button" onclick="delete_all_ok()" class="btn btn-primary btn-sm"><span data-l10n-id="delete"></span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 删除删除库存限制的产品确认弹窗 -->
+<div class="modal fade" id="delete_out_of_stock" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="deleteout"></p>
+      </div>
+      <input type="hidden" id="delete_one_product" value="">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+        <button type="button" class="btn btn-primary btn-sm"><a style="color: white;" href="{% url 'delete_out_of_stock' %}"><span data-l10n-id="delete"></span></a></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 请选择产品提示认弹窗 -->
+<a href="javascript:void(0)" id="place_select_product_model" data-toggle="modal" data-target="#place_select_product" style="display: none;"></a>
+<div class="modal fade" id="place_select_product" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="seleteproduct"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 不能添加产品数量为0到购物车弹窗提示 -->
+<a href="javascript:void(0)" id="cannot_add_qty_model" data-toggle="modal" data-target="#cannot_add_qty" style="display: none;"></a>
+<div class="modal fade" id="cannot_add_qty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 400px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <p data-l10n-id="cannotaddqty"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  /*
+   *统计选中个数
+   */
+  function count_checked(){
+    //获取勾选的cartitem id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    });
+
+    var num = checkVal.length;
+
+    $("#count_checked_num").html("&nbsp;"+num+" &nbsp;&nbsp;&nbsp;&nbsp;");
+  };
+  /*
+   *触发删除单个产品确认弹窗
+   */
+  function delete_one(cartitem_id){
+    $("#delete_one_product").val(cartitem_id);
+  };
+
+  /*
+   *删除单个产品确认弹窗数据操作
+   */
+  function delete_one_ok(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var cartitem_id = $("#delete_one_product").val();
+    var type = 'delete_one_product';
+
+    $.ajax({
+      type: 'POST',
+      data: {type:type,cartitem_id:cartitem_id},
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success: function(data){
+        if(data.result == 'success'){
+          // $("#message_output_content").html("Delete product from order list success.");
+          // $("#message_output").show().delay (1500).fadeOut();
+          // var t = setTimeOut(window.location.reload(),1000);
+          window.location.reload();
+        }else{
+          alert('Delete false !');
+        };
+      },
+      error: function(){
+        alert("Delete false !");
+      },
+    });
+  };
+
+  /*
+   *更改order_list页单个产品数量 增加 ajax
+   */
+  function order_list_plus(product_id) {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var qty = $("#product_" + product_id).val();
+    var num = parseInt(qty) || 0;
+    num += 1;
+
+    var type = 'order_list_plus'
+    var customer_id = $("#customer_id").val();
+
+    $.ajax({
+      type: 'POST',
+      data: {type:type,product_id:product_id,customer_id:customer_id,num:num},
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success: function(data){
+        if(data.result == 'success'){
+          $("#product_" + product_id).val(num);
+          changeTotalAmount();
+          if(lang == 'fr') {
+            $("#message_output_content").html('Augmentation de quantité avec succès.');
+            $("#message_output").show().delay (1000).fadeOut();
+            return ;
+          }
+          if(lang == 'fr') {
+            $("#message_output_content").html('Erfolgreiche erhöhunge Menge.');
+            $("#message_output").show().delay (1000).fadeOut();
+            return ;
+          }
+          if(lang == 'fr') {
+            $("#message_output_content").html('Product quantity plus success.');
+            $("#message_output").show().delay (1000).fadeOut();
+            return ;
+          }
+
+          $("#message_output_content").html('Product quantity plus success.');
+          $("#message_output").show().delay (1000).fadeOut();
+        }else{
+          alert('Product quantity plus false.');
+        };
+      },
+      error: function(){
+        alert("Product quantity plus false.")
+      },
+    });
+  };
+
+  /*
+   *更改order_list页单个产品数量 减去 ajax
+   */
+  function order_list_minus(product_id) {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var lang = $.cookie('lang') || 'en-US';
+
+    var qty = $("#product_" + product_id).val();
+    var num = parseInt(qty) || 0;
+
+    if(num <= 1){
+      $("#cannot_add_qty_model").click();
+    }else{
+      num -= 1;
+      num = num < 1 ? 1 : num;
+
+      var type = 'order_list_plus'
+      var customer_id = $("#customer_id").val();
+
+      $.ajax({
+        type: 'POST',
+        data: {type:type,product_id:product_id,customer_id:customer_id,num:num},
+        url: "{% url 'add_to_order_ajax' %}",
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+          if(data.result == 'success'){
+            $("#product_" + product_id).val(num);
+            changeTotalAmount();
+            if(lang == 'fr') {
+              $("#message_output_content").html('Diminution de quantité avec succès.');
+              $("#message_output").show().delay (1000).fadeOut();
+              return ;
+            }
+            if(lang == 'de') {
+              $("#message_output_content").html('Erfolgreiche abgebaute Menge.');
+              $("#message_output").show().delay (1000).fadeOut();
+              return ;
+            }
+            if(lang == 'nl') {
+              $("#message_output_content").html('Diminution de quantité avec succès.');
+              $("#message_output").show().delay (1000).fadeOut();
+              return ;
+            }
+
+            $("#message_output_content").html('Product quantity minus success.');
+            $("#message_output").show().delay (1000).fadeOut();
+          }else{
+            alert('Product quantity minus false.');
+          };
+        },
+        error: function(){
+          alert("Product quantity minus false.")
+        },
+      });
+    };
+  };
+
+  /*
+   *更改order_list页单个产品数量
+   */
+  function change_qty(product_id) {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+    var type = 'order_list_plus';
+    var num = $("#product_" + product_id).val();
+    var customer_id = $("#customer_id").val();
+    if(num <= 0){
+      // alert('Can not add to order list with qty = 0 !');
+      $("#cannot_add_qty_model").click();
+    }else{
+      $.ajax({
+        type: 'POST',
+        data: {type:type,product_id:product_id,customer_id:customer_id,num:num},
+        url: "{% url 'add_to_order_ajax' %}",
+        cache: false,
+        dataType: 'json',
+        success:function(data){
+          if(data.result == 'success'){
+            changeTotalAmount();
+            $("#message_output_content").html('Change product qty success.');
+            $("#message_output").show().delay (1000).fadeOut();
+          }else{
+            alert('Change quantity qty false.');
+          };
+        },
+        error:function(){
+          alert('false');
+        }
+      });
+    }
+
+  };
+
+  /*
+   * 重新计算Total Amount
+   */
+  function changeTotalAmount() {
+      var products = ($("#product_ids").val()).split(',');
+      var total_amount = 0;
+      for (var i = 0; i < products.length; i++){
+          var price = $("#price_" + products[i]).val();
+          var qty = $("#product_" + products[i]).val();
+          total_amount += price * qty;
+      }
+      $("#total_amount").html(total_amount.toFixed(2));
+  }
+
+  /*
+   *触发删除所有勾选的产品确认弹框
+   */
+  function delete_all(){
+    //获取勾选的cartitem id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    });
+
+    if(checkVal && checkVal.length > 0){
+      $("#delete_all_a").attr('data-target', '#delete_all')
+    }else{
+      // alert('Please choose products !');
+      $("#place_select_product_model").click();
+    }
+  };
+
+  /*
+   *order_list页删除所有勾选的产品 ajax
+   */
+  function delete_all_ok(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    //获取勾选的cartitem id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    });
+
+    if(checkVal && checkVal.length > 0){
+      var recipe = {}
+      recipe['type'] = 'delete_from_list';
+      //把数组转化为json字符串
+      recipe['cartitems'] = JSON.stringify(checkVal);
+
+      $.ajax({
+        type: 'POST',
+        data: recipe,
+        url: "{% url 'add_to_order_ajax' %}",
+        cache: false,
+        dataType: 'json',
+        success:function(data){
+          // var data = $.parseJSON(data);
+          if(data.result == 'success'){
+            window.location.reload();
+          }else{
+            alert('add false !')
+          }
+        },
+        error:function(){
+          alert('Delete from list false !');
+        },
+      });
+    }else{
+      // alert('Please choose products !')
+      $("#place_select_product_model").click();
+    }
+  };
+
+  /*
+   *order_list页把勾选的产品(不包含有库存限制的产品)展示到order-detail页面，含选择的产品是否有库存限制判断 ajax
+   */
+  function process_order(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    //获取勾选的cartitem id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    });
+
+    //获取购物车里面所有的有库存现在的产品id
+    var stock_id = $("#stock_id").val();
+    //把字符串转化为数组
+    stock_id = stock_id.split(',');
+    console.log(stock_id)
+    var has_stock = []
+
+    //判断是否有勾选产品
+    if(checkVal && checkVal.length > 0){
+      //循环所有选择的产品
+      $.each(checkVal, function(k,v){
+        //判断所选产品id是否包含在有库存限制的产品id里面
+        var stock = $.inArray(v, stock_id);
+        //不包含，返回-1
+        if(stock != -1){
+          has_stock[k] = stock
+          //包含的情况，结束循环
+          return false;
+        }
+      });
+      console.log(has_stock);
+      if(has_stock && has_stock.length > 0){
+        //包含库存限制的产品，改变process按钮属性，触发弹窗
+        $("#process_btn").attr('data-target', '#myModal');
+      }else{
+
+        //不包含，正常下单
+        $("#process_btn").attr('data-target', '');
+        var customer_id = $("#customer_id").val();
+        var cartitemid = JSON.stringify(checkVal);
+        $("#customerid").val(customer_id);
+        $("#cartitemid").val(cartitemid);
+        $("#to_order_detail").click();
+      }
+    }else{
+      // alert('Please choose products !')
+      $("#place_select_product_model").click();
+    }
+  };
+
+  /*
+   *order_list页把勾选的产品(包含有库存限制的产品)展示到order-detail页面，ajax
+   */
+  function process_order_ok(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    //获取勾选的cartitem id
+    var checkVal = [];
+    $("#checkList :checkbox[checked]").each(function(i) {
+        checkVal[i] = $(this).val();
+    });
+
+    if(checkVal && checkVal.length > 0){
+      var customer_id = $("#customer_id").val();
+      var cartitemid = JSON.stringify(checkVal);
+      $("#customerid").val(customer_id);
+      $("#cartitemid").val(cartitemid);
+      $("#to_order_detail").click();
+    }else{
+      alert('Please choose products !')
+    }
+  };
+
+  /*
+   *点击产品图片浏览大图及ajax获取该产品所有图片
+   */
+  function image_view_a(product_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var dict = {};
+    dict['type'] = 'product_image_view';
+    dict['product_id'] = product_id;
+
+    $.ajax({
+      type: 'post',
+      data: dict,
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        var images = data.images;
+        var image_detail = '';
+        var image_page = "<li class='active'></li>"
+        var len = images.length;
+        var li_width = 100/len;
+        $.each(images, function(k,v){
+          image_detail += "<li style='width: "+li_width+"%; float: left;'><img class='responsive' src='/site_media/"+v+"'></li>";
+          if(k>=1){
+            image_page += "<li></li>";
+          }
+        });
+        var ul_width = 100*len + "%";
+        $("#slider_images").width(ul_width);
+        $("#slider_images").html(image_detail);
+        $("#slider_images_page").html(image_page);
+        if(len<=1){
+          $("#slider_images").css({ right:"0%" });
+          // $("#slider_image_foot").html('');
+        };
+        $("#slider").easySlider( {
+          slideSpeed: 500,
+          paginationSpacing: "15px",
+          paginationDiameter: "12px",
+          paginationPositionFromBottom: "20px",
+          slidesClass: ".slides",
+          controlsClass: ".controls",
+          paginationClass: ".pagination"          
+        });
+        $("#image_view_btn"+product_id).click();
+      },
+      error:function(){
+        alert('false !');
+      }
+    });
+  };
+
+
+  /*
+   *点击产品图片浏览大图及ajax获取该产品图片(新)
+   */
+  function image_view_a2(product_id){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var dict = {};
+    dict['type'] = 'product_image_view';
+    dict['product_id'] = product_id;
+    dict['customer_id'] = $('#customer_id').val();
+
+    $.ajax({
+      type: 'post',
+      data: dict,
+      url: "{% url 'add_to_order_ajax' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        // $('#test_model').click();
+        $('#slides_clearfix').empty();
+        $('#slides_clearfix').append(data.images_info);
+
+        if(data.images_count > 1){
+          $('#image_controls').show();
+        }else {
+          $('#image_controls').hide();
+        }
+
+        $('#test_model').click();
+      },
+      error:function(){
+        alert('false !');
+      }
+    });
+  };
+</script>
+
+{% endblock %}

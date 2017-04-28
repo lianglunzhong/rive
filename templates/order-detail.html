@@ -1,0 +1,801 @@
+{% extends "template.html" %}
+{% block content %}
+
+<style type="text/css">
+  .form-group .row{margin-bottom: 10px;}
+  .form-group .col-xs-2 a{color:#8ab1b6}
+  .form-group .col-xs-3 a{color:#8ab1b6}
+  .form-group .col-xs-offset-1 a{color:#ff6600}
+  .form-group .col-xs-9{float:right; border-bottom: 1px solid #dddddd}
+  .form-group .col-xs-9:nth-last-child(1){border-bottom:none}
+  .form-group .col-xs-9 .col-xs-1{padding: 0px; width: 4%}
+  .form-group .col-xs-9 .col-xs-11{padding: 0px; width: 95%}
+  .form-group .col-xs-9 .col-xs-1 input{margin-top:14px;}
+  .address .form-group input.error{border: 1px solid #ff9999; box-shadow: 0px 0px 8px #ff9999; color:#666;}
+  .address .form-group .error{color:#f30}
+  .address .form-control{text-align:right;}
+  .mb5{ margin-bottom: 5px;}
+  .mb10{ margin-bottom: 10px;}
+  .mb15{ margin-bottom: 15px;}
+  .mb20{ margin-bottom: 20px;}
+  .mt5{ margin-top: 5px;}
+  .mt10{ margin-top: 10px;}
+  .mt15{ margin-top: 15px;}
+  .mt20{ margin-top: 20px;}
+</style>
+
+<div class="main">
+  <div class="container">
+    <div class="row">
+      <div class=" order-detail">
+      <!--用户id获取-->
+        <input type="hidden" id="customer_id" value="{{ customer.id }}">
+        <div class="col-xs-8">
+          <div class="place-order">
+            <div class="title" data-l10n-id="placeorder"></div>
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-xs-3 control-label" data-l10n-id="saddress"></label>
+                <div class="col-xs-9" id="customer_shipping_address">
+                  {% for key,value in shipping_addresses.items %}
+                    <div class="col-xs-11 addressrow">
+                      <div class="col-xs-1">
+                        {% for key1,value1 in default_address.items %}
+                          {% if key == key1 %}
+                            {% if value1 == False %}
+                              <input type="radio" name="select_shipping_address" value="{{ key }}" />
+                            {% else %}
+                              <input type="radio" checked="checked" name="select_shipping_address" value="{{ key }}" />
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                      <p class="form-control-static" id="shipping_address_detail_{{ key }}">{{ value }}</p>
+                      <div class="row">
+                        <div class="col-xs-2" style="width: 25%;"><a href="javascript:void(0);" data-toggle="modal" data-target="#myModal-rec-add"><i class="fa fa-plus mr10" aria-hidden="true"></i><span data-l10n-id="add"></a></div>
+                        <div class="col-xs-2" style="width: 25%;"><a href="javascript:void(0);" onclick="shipping_address_edit_show({{ key }})"><i class="fa fa-pencil-square-o mr10" aria-hidden="true"></i><span data-l10n-id="eidt"></a></div>
+                        <div class="col-xs-3" style="width: 25%;"><a href="javascript:void(0);" onclick="shipping_address_delete({{ key }}, this)"><i class="fa fa-trash-o mr10" aria-hidden="true"></i><span data-l10n-id="delete"></a></div>
+                        {% for key1,value1 in default_address.items %}
+                          {% if key == key1 %}
+                            {% if value1 == False %}
+                              <div class="col-xs-offset-1 col-xs-3" style="margin-left: 0px;" id="dafault_{{ key1 }}"><a href="javascript:void(0);" onclick="address_set_dafault({{ key1 }}, this)" data-l10n-id="setdefault"></a></div>
+                            {% else %}
+                              <div class="col-xs-offset-1 col-xs-3" id="dafault_{{ key1 }}" style="display: none;margin-left: 0px;"><a href="javascript:void(0);" onclick="address_set_dafault({{ key1 }}, this)" data-l10n-id="setdefault"></a></div>
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-3 control-label" data-l10n-id="baddress"></label>
+                <div class="col-xs-9">
+                  <p class="form-control-static">{{ billing_address }}</p>
+                </div>
+              </div>
+              <div class="form-group">
+
+                <label  class="col-xs-3 control-label" data-l10n-id="sdate"></label>
+                <!-- <label  class="col-xs-3 control-label">Expected shipping date</label> -->
+                <div class="col-xs-3" style="margin-left: -5px;padding-left: 8px">
+                  <input id="expcted_shipping" class="laydate-icon-default" size="16" type="text" value="" style="padding-right: 50px;height: 33px;margin-top: 7px;margin-left: 10px;">
+                </div> 
+                <div class="col-xs-6" style="margin-top: -5px;padding-left: 60px; display: none; text-align: right;" id="expcted_shipping_tips">
+                  <!-- <p style="color: #999999;" data-l10n-id="expctedshippingtips"></p> -->
+                  <p style="color: #999999;" data-l10n-id="expctedshippingtips"></p>
+                </div> 
+              </div>
+              <div class="form-group">
+                <label  class="col-xs-3 control-label" data-l10n-id="comment"></label>
+                <div class="col-xs-9">
+                  <textarea id="comment_text" class="form-control" rows="10"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class="order-list">
+            <ul class="list-box">
+              <!--上传图片生成订单页面展示-->
+              {% if upload_pic_order %}
+                  <li style="margin-right: 10px;margin-left: 10px;">
+                    <div><a href="/site_media/{{ upload_pic_order }}" target="blank"><img src="/site_media/{{ upload_pic_order }}" alt="" onerror="this.src='/static/assets/images/no_picture.png'"></a></div>
+                  </li>
+              {% else %}
+                {% for cartitem in cartitems %}
+                  <li style="margin-right: 10px;margin-left: 10px;">
+                    {% for key, value in images.items %}
+                      {% if cartitem.id == key %}
+                        {% if value %}
+                          <div class="img"><img src="/site_media/{{ value }}" alt="" onerror="this.src='/static/assets/images/no_picture.png'"></div>
+                        {% else %}
+                          <div class="img"><img src="/static/assets/images/no_picture.png" alt=""></div>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                    <div class="title" style="width:46%;line-height: 22px;margin-left: 4px;">
+                      <div>{{ cartitem.name }}</div>
+                      {% if cartitem.stock == 2 %}
+                        <span style="font-size: 12px;line-height: initial;background: #f5f5f5;color: #666;display: inline-block;"><span data-l10n-id="deliverydate"></span><br>{{ est_date }}</span>
+                      {% endif %}
+                    </div>
+                    <div class="price" style="margin-left: 2px; width: 32%">
+                      <span>{{ cartitem.price }} {{ code }}</span>
+                      <span>{{ cartitem.quantity }}</span>
+                      {% if cartitem.stock == 0 %}
+                        <span class="out" data-l10n-id="outstock" style="font-size: 12px;"></span>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
+          <div class="order-play">
+          <br>
+            {% if upload_pic_order%}
+              <ul class="pay">
+<!--                 <li>
+                  <span class="label" data-l10n-id="shipping"></span><span class="static">modif1</span>
+                </li> -->
+                <li style="margin-right: 10px;margin-left: 10px;">
+                  <p style="color: #999999;" data-l10n-id="shippriceinfor"></p>
+                </li>
+              </ul>
+            {% else %}
+              <ul class="pay">
+                <li>
+                  <span class="label" style="width: 35%;float: left;" data-l10n-id="summary"></span>
+                  <span class="static" style="width: 65%;float: right;">{{ amount }} {{ code }}</span>
+                </li>
+                <li >
+                  <span class="label" style="width: 35%;float: left;" data-l10n-id="shipping"></span>
+                  <span class="static" style="width: 65%;float: right;" data-l10n-id="tovalidate"></span>
+                </li>
+                <li >
+                  <span class="label" style="width: 35%;float: left;" data-l10n-id="totalprice"></span>
+                  <span class="static total" style="width: 65%;float: right;">{{ amount }} {{ code }}</span>
+                </li>
+                <li>
+                  <p style="color: #999999;" data-l10n-id="shippriceinfor"></p>
+                </li>
+              </ul>
+            {% endif %}
+            <div class="add">
+              {% if upload_pic_order %}
+                <input type="hidden" id="upload_image" value="{{ upload_pic_order }}">
+                <button onclick="place_pic_order()" type="button" class="btn btn-primary btn-sm" data-l10n-id="placeorder"></button>
+              {% else %}
+                <input type="hidden" id="cartitem_ids" value="{{ cartitem_ids }}">
+                <!-- <button onclick="place_order()" type="button" class="btn btn-primary btn-sm" data-l10n-id="placeorder"></button> -->
+                <button onclick="place_order()" type="button" class="btn btn-primary btn-sm" data-l10n-id="placeorder"></button>
+              {% endif %}
+            </div>
+            {% if stock_limit %}
+              <div class="order-list">
+                <ul class="list-box" style="border-bottom: none;">
+                  <li style="margin-right: 10px;margin-left: 10px;">
+                    <p style="color: #999999;" data-l10n-id="outofstock"></p>
+                  </li>
+                </ul>
+              </div>
+            {% endif %}
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+
+
+<!-- 下单提示弹出 -->
+<a href="javascript:void(0)" id="place_order_model" data-toggle="modal" data-target="#place_order_model1" style="display: none;"></a>
+<div class="modal fade" id="place_order_model1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 450px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <!-- <p data-l10n-id="placeordertips"></p> -->
+        <p data-l10n-id="placeordertips"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="place_order_ok()" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 图片下单提示弹出 -->
+<a href="javascript:void(0)" id="place_pic_order_model" data-toggle="modal" data-target="#place_pic_order_model1" style="display: none;"></a>
+<div class="modal fade" id="place_pic_order_model1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 450px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <!-- <p data-l10n-id="placeordertips"></p> -->
+        <p data-l10n-id="placeordertips"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="place_pic_order_ok()" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="ok"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 添加地址弹窗 -->
+<div class="modal fade" id="myModal-rec-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="addaddress"></h4>
+      </div>
+      <form class="form-horizontal loginform address">
+      <div class="modal-body">
+        <form class="form-horizontal address" action="{% url 'order_address_add' %}" method="post">
+          {% csrf_token %}
+          <div class="form-group mb15">
+            <label for="inputEmail3" class="col-sm-5 control-label" data-l10n-id="shippingcountry"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Country" id="shipping_country" name="shipping_country">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingstate"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="State" id="shipping_state" name="shipping_state">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingcity"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="City" id="shipping_city" name="shipping_city">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shipping_address"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Address" id="shipping_address" name="shipping_address">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingzip"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Zip" id="shipping_zip" name="shipping_zip">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingphone"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Home Phone" id="shipping_phone" name="shipping_phone">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingmobile"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Mobile" id="shipping_mobile" name="shipping_mobile">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm model" id="shipping_address_add_cannel" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="shipping_address_add()" data-l10n-id="ok"></button>
+          </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+</div> 
+
+<!-- 编辑地址弹窗 -->
+<div class="modal fade" id="myModal-rec-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel" data-l10n-id="editaddress"></h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal address" action="{% url 'order_address_edit' %}" method="post">
+        {% csrf_token %}
+          <input type="hidden" id="edit_address_id">
+          <div class="form-group mb15">
+            <label for="inputEmail3" class="col-sm-5 control-label" data-l10n-id="shippingcountry"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Country" name="Country" id="shipping_country_edit">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingstate"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="State" id="shipping_state_edit" name="State">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingcity"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="City" id="shipping_city_edit"  name="City">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shipping_address"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control"  placeholder="Address" id="shipping_address_edit" name="Address">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingzip"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="shipping_zip_edit" placeholder="Zip" name="Zip">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingphone"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="shipping_phone_edit"  placeholder="Home Phone" name="Phone">
+            </div>
+          </div>
+          <div class="form-group mb15">
+            <label for="inputPassword3" class="col-sm-5 control-label" data-l10n-id="shippingmobile"></label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" id="shipping_mobile_edit" placeholder="Mobile" name="Mobile">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="shipping_address_edit_cannel" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <button type="button" class="btn btn-primary btn-sm" data-l10n-id="ok" onclick="shipping_address_edit_submit()"></button>
+          </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+</div> 
+
+<script>
+$("#expcted_shipping").click(function(){
+  // alert('In condition of available stocks and validation of the shipping date by the sales team.');
+  $("#expcted_shipping_tips").show();
+});
+
+laydate({
+  elem: '#expcted_shipping',
+  min: laydate.now(+4), //-1代表昨天，-2代表前天，以此类推
+  // max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+  istime: false,
+  festival: false,
+  issure: false,
+  istoday: false,
+  format: 'YYYY-MM-DD',
+});
+</script>
+
+
+<script src="/static/assets/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript">
+  $('.form_datetime').datetimepicker({
+      weekStart: 0,
+      todayBtn: false,
+      autoclose: false,
+      todayHighlight: 1,
+      startView: 2,
+      forceParse: 0, 
+  });
+
+  function place_order(){
+    var lang = $.cookie('lang') || 'en-US';
+    var address_id = $("input[name='select_shipping_address']:checked").val();
+    if(address_id){
+      $("#place_order_model").click();
+    } else {
+      if(lang == 'fr') {
+        alert('Sélectionnez votre adresse de livraison!')
+        return;
+      }
+      if(lang == 'de') {
+        alert('Wählen Sie Ihre Lieferadresse aus!')
+        return;
+      }
+      if(lang == 'nl') {
+        alert('please select shipping address!')
+        return;
+      }
+
+      alert('please select shipping address!')
+    }
+  };
+
+  /*
+   *order-detail页面生成订单
+   */
+  function place_order_ok(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var lang = $.cookie('lang') || 'en-US';
+
+    //期望发货时间
+    var expcted_shipping = $("#expcted_shipping").val();
+    //备注
+    var message = $("#comment_text").val();
+    //当前页面的产品id
+    var cartitem_ids = $("#cartitem_ids").val();
+
+    var recipe = {}
+    var customer_id = $("#customer_id").val();
+
+    var address_id = $("input[name='select_shipping_address']:checked").val();
+    recipe['address_id'] = address_id;
+
+    recipe['type'] = 'place_order';
+    recipe['customer_id'] = customer_id;
+    recipe['expcted_shipping'] = expcted_shipping;
+    recipe['message'] = message;
+    recipe['cartitem_ids'] = cartitem_ids;
+
+    if(address_id) {
+      $.ajax({
+        type: 'POST',
+        data: recipe,
+        url: "{% url 'add_to_order_ajax' %}",
+        cache: false,
+        dataType: 'json',
+        success:function(data){
+          if(data.result == 'success'){
+            window.location.href = "{% url 'order_history' %}";
+          }else{
+            alert('Place order false !')
+          }
+        },
+        error:function(){
+          alert('Place order false !');
+        },
+      }); 
+    }else {
+      if(lang == 'fr') {
+        alert('Sélectionnez votre adresse de livraison!')
+        return;
+      }
+      if(lang == 'de') {
+        alert('Wählen Sie Ihre Lieferadresse aus!')
+        return;
+      }
+      if(lang == 'nl') {
+        alert('please select shipping address!')
+        return;
+      }
+
+      alert('please select shipping address!')
+    }   
+  };
+
+
+  function place_pic_order(){
+    var lang = $.cookie('lang') || 'en-US';
+    var address_id = $("input[name='select_shipping_address']:checked").val();
+    if(address_id){
+      $("#place_pic_order_model").click();
+    } else {
+      if(lang == 'fr') {
+        alert('Sélectionnez votre adresse de livraison!')
+        return;
+      }
+      if(lang == 'de') {
+        alert('Wählen Sie Ihre Lieferadresse aus!')
+        return;
+      }
+      if(lang == 'nl') {
+        alert('please select shipping address!')
+        return;
+      }
+
+      alert('please select shipping address!')
+    }
+  };
+
+  /*
+   *上传图片生成订单
+   */
+  function place_pic_order_ok(){
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var lang = $.cookie('lang') || 'en-US';
+
+    //期望发货时间
+    var expcted_shipping = $("#expcted_shipping").val();
+    //备注
+    var message = $("#comment_text").val();
+    //图片名称
+    var image_name = $("#upload_image").val();
+
+
+    var recipe = {}
+    var customer_id = $("#customer_id").val();
+
+    var address_id = $("input[name='select_shipping_address']:checked").val();
+    recipe['address_id'] = address_id;
+
+    recipe['type'] = 'place_pic_order';
+    recipe['customer_id'] = customer_id;
+    recipe['expcted_shipping'] = expcted_shipping;
+    recipe['message'] = message;
+    recipe['image_name'] = image_name;
+    if(address_id){
+      $.ajax({
+        type: 'POST',
+        data: recipe,
+        url: "{% url 'add_to_order_ajax' %}",
+        cache: false,
+        dataType: 'json',
+        success:function(data){
+          if(data.result == 'success'){
+            window.location.href = "{% url 'order_history' %}";
+          }else{
+            alert('Place order false !')
+          }
+        },
+        error:function(){
+          alert('Place order false !');
+        },
+      }); 
+    } else {
+      if(lang == 'fr') {
+        alert('Sélectionnez votre adresse de livraison!')
+        return;
+      }
+      if(lang == 'de') {
+        alert('Wählen Sie Ihre Lieferadresse aus!')
+        return;
+      }
+      if(lang == 'nl') {
+        alert('please select shipping address!')
+        return;
+      }
+
+      alert('please select shipping address!')
+    }   
+  };
+
+
+  /*
+   *删除shipping_address
+   */
+  function shipping_address_delete(address_id, obj) {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var lang = $.cookie('lang') || 'en-US';
+
+    var recipe = {}
+    var customer_id = $("#customer_id").val();
+
+    recipe['type'] = 'shipping_address_delete';
+    recipe['customer_id'] = customer_id;
+    recipe['address_id'] = address_id;
+
+
+    $.ajax({
+      type: 'POST',
+      data: recipe,
+      url: "{% url 'order_address_delete' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        if (data['result']){
+          if (data['result'] == 1){
+            if(lang == 'fr') {
+              alert("C'est votre dernière adresse enregistrée, elle ne peut pas être éffacée!");
+              return ;
+            }
+            if(lang == 'de') {
+              alert('Es ist Ihre letzte registrierte Adresse, sie kann nicht gelöscht werden!');
+              return ;
+            }
+            if(lang == 'nl') {
+              alert('This is the last address and cannot be deleted!');
+              return ;
+            }
+
+            alert('This is the last address and cannot be deleted!');
+          } else {
+            alert('Delete success!');
+            $(obj).parents('.addressrow').remove();
+          }
+        } else {
+          alert('delete false !');
+        }
+      },
+      error:function(){
+        alert('false !');
+      },
+    }); 
+  };
+
+  
+  /*
+   *添加shipping_address
+   */
+  function shipping_address_add() {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var recipe = {}
+    var customer_id = $("#customer_id").val();
+    var lang = $.cookie('lang') || 'en-US';
+
+    recipe['type'] = 'shipping_address_add';
+    recipe['customer_id'] = customer_id;
+    recipe['lang'] = lang;
+    recipe['shipping_country'] = $("#shipping_country").val();
+    recipe['shipping_state'] = $("#shipping_state").val();
+    recipe['shipping_city'] = $("#shipping_city").val();
+    recipe['shipping_address'] = $("#shipping_address").val();
+    recipe['shipping_zip'] = $("#shipping_zip").val();
+    recipe['shipping_phone'] = $("#shipping_phone").val();
+    recipe['shipping_mobile'] = $("#shipping_mobile").val();
+
+    $.ajax({
+      type: 'POST',
+      data: recipe,
+      url: "{% url 'order_address_add' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        if(data['result'] && data['result'] == 1) {
+          alert('add success');
+          $("#customer_shipping_address").append(data['address_add']);
+          $("#shipping_address_add_cannel").click();
+        } else {
+          alert('add false !');
+        }
+      },
+      error:function(){
+        alert('false !');
+      },
+    }); 
+  };
+
+
+  /*
+   *编辑shipping_address,触发弹窗，并通过ajax赋值
+   */
+  function shipping_address_edit_show(address_id) {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var recipe = {};
+    recipe['type'] = 'shipping_address_edit_show';
+    recipe['address_id'] = address_id;
+
+    $.ajax({
+      type: 'POST',
+      data: recipe,
+      url: "{% url 'order_address_edit' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        if(data['result'] && data['result'] == 1) {
+          $("#shipping_country_edit").val(data['shipping_country']);
+          $("#shipping_state_edit").val(data['shipping_state']);
+          $("#shipping_city_edit").val(data['shipping_city']);
+          $("#shipping_zip_edit").val(data['shipping_zip']);
+          $("#shipping_phone_edit").val(data['shipping_phone']);
+          $("#shipping_mobile_edit").val(data['shipping_mobile']);
+          $("#shipping_address_edit").val(data['shipping_address']);
+          $("#edit_address_id").val(address_id);
+        }
+          // $("#shipping_address_edit_cannel").click();
+      },
+      error:function(){
+        alert('false !');
+      },
+    });
+
+    $("#myModal-rec-edit").modal('show');
+
+  };
+
+  
+  /*
+   *编辑shipping_address,提交表单数据
+   */
+  function shipping_address_edit_submit() {
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var lang = $.cookie('lang') || 'en-US';
+
+    var address_id = $("#edit_address_id").val();
+    var customer_id = $("#customer_id").val();
+
+    var recipe = {};
+    recipe['type'] = 'shipping_address_edit_submit';
+    recipe['address_id'] = $("#edit_address_id").val();
+    recipe['customer_id'] = customer_id;
+    recipe['lang'] = lang;
+    recipe['shipping_country'] = $("#shipping_country_edit").val();
+    recipe['shipping_state'] = $("#shipping_state_edit").val();
+    recipe['shipping_city'] = $("#shipping_city_edit").val();
+    recipe['shipping_zip'] = $("#shipping_zip_edit").val();
+    recipe['shipping_phone'] = $("#shipping_phone_edit").val();
+    recipe['shipping_mobile'] = $("#shipping_mobile_edit").val();
+    recipe['shipping_address'] = $("#shipping_address_edit").val();
+
+    $.ajax({
+      type: 'POST',
+      data: recipe,
+      url: "{% url 'order_address_edit' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        if(data['result'] && data['result'] == 1) {
+          alert('edit success');
+          $("#shipping_address_detail_"+address_id).html(data['ship_address']);
+          $("#shipping_address_edit_cannel").click();
+        } else {
+          alert('edit false !');
+        }
+      },
+      error:function(){
+        alert('false !');
+      },
+    });
+
+  };
+
+
+function address_set_dafault(address_id, obj) {
+  $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    var recipe = {}
+    var customer_id = $("#customer_id").val();
+
+    recipe['type'] = 'address_set_dafault';
+    recipe['address_id'] = address_id;
+    recipe['customer_id'] = customer_id;
+
+
+    $.ajax({
+      type: 'POST',
+      data: recipe,
+      url: "{% url 'order_address_set_default' %}",
+      cache: false,
+      dataType: 'json',
+      success:function(data){
+        if(data['result'] == 1){
+          alert('set default success !');
+          $(data['address_ids']).each(function(index,id){
+            $("#dafault_"+id).show();
+          });
+
+          $("#dafault_"+address_id).hide();
+        } else {
+          alert('set default false !');
+        }
+      },
+      error:function(){
+        alert('false !');
+      },
+    }); 
+
+};
+</script>
+
+{% endblock %}

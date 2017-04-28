@@ -1,0 +1,97 @@
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" class="w600" style="text-align: justify; margin: auto; width:600px">
+
+	<tbody>
+
+		<tr style="line-height: 0px;" class="acyeditor_delete">
+
+			<td colspan="5" style="background-color: #69b4c0;" valign="bottom" width="600"><img alt=" - - - " src="https://www.b2b-rive.com/static/assets/images/top.png" /></td>
+
+		</tr>
+
+		<tr >
+
+			<td  style="background-color: #ebebeb;" width="40"></td>
+
+			<td colspan="3" height="80" style="text-align: left; background-color: rgb(235, 235, 235);" width="520"><img alt="-" src="https://www.b2b-rive.com/static/assets/images/message_icon.png" style="float:left; margin-right:10px;" />
+
+				<h3>{{ title }}</h3>
+
+
+
+				<h4>{{ title }}</h4>
+
+			</td>
+
+			<td  style="background-color: #ebebeb;" width="40"></td>
+
+		</tr>
+
+		<tr >
+
+			<td style="background-color: #ebebeb;" width="40"></td>
+
+			<td style="background-color: #fff;" width="20"></td>
+
+			<td height="20" style="background-color:#fff;" width="480"></td>
+
+			<td  style="background-color: #fff;" width="20"></td>
+
+			<td style="background-color: #ebebeb;" width="40"></td>
+
+		</tr>
+
+		<tr class="acyeditor_delete" >
+
+			<td style="background-color: #ebebeb;" width="40"></td>
+
+			<td style="background-color: #fff;" width="20"></td>
+
+			<td style="background-color:#fff; text-align: left;" width="480">
+
+			<h1>Dear retailer,</h1>
+
+			Unfortunately the item 
+			{% for orderitem in orderitems %}
+				{{ orderitem.sku }}, {{ orderitem.name }}{% if not forloop.last %};{% endif %}<span>&nbsp;&nbsp;</span>
+			{% endfor %}
+			in your demand {{ ordernum }} is out of stock. It will be deleted from your list to avoid delay in the shipping. Please feel free to call your salesman if any trouble or if you want to keep it in your demand.
+			<br>
+			<br>
+			<br>
+			Thank you,<br>
+			RIVE TEAM
+			<br />
+
+			</td>
+
+			<td style="background-color: #fff;" width="20"></td>
+
+			<td style="background-color: #ebebeb;" width="40"></td>
+
+		</tr>
+
+		<tr class="acyeditor_delete" >
+
+			<td style="background-color: #ebebeb;" width="40"></td>
+
+			<td style="background-color: #fff;" width="20"></td>
+
+			<td height="20" style="background-color:#fff;" width="480"></td>
+
+			<td style="background-color: #fff;" width="20"></td>
+
+			<td style="background-color: #ebebeb;" width="40"></td>
+
+		</tr>
+
+		<tr style="line-height: 0px;" class="acyeditor_delete">
+
+			<td colspan="5" style="background-color:#ebebeb;" width="600"><img alt=" - - - " src="https://www.b2b-rive.com/static/assets/images/bottom.png" /></td>
+
+		</tr>
+
+	</tbody>
+
+</table>
+

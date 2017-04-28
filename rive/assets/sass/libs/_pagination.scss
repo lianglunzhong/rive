@@ -1,0 +1,62 @@
+// Pagination
+
+@mixin pagination-size($padding, $font-size) {
+  > li {
+    > a,
+    > span {
+      padding: 0 $padding;
+      font-size: $font-size;
+    }
+    
+  }
+}
+
+
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.pagination {
+  display: block;
+  padding-left: 0;
+ // margin-top: $line-height-computed;
+  @include clearfix;
+  font-size:$font-size-base;
+  text-align: center;
+   li {
+    display: inline-block; // Remove list-style and block-level defaults
+     margin: 0 5px 0 0;
+      &.active a{
+          background: #8ab1b6;
+          color: $white;
+        }
+
+     a{
+      position: relative;
+      float: left; // Collapse white-space
+      text-decoration: none;
+      color: #fff;
+      //border:1px solid #b0b0b0;
+      width: 26px;
+      height: 26px;
+      text-align: center;
+      border-radius: 13px;
+      font-size: 12px;
+      background: $white;
+      color: $black;
+      border:1px solid $gray-light;
+      &:hover{
+        background-color: #c8d8da;
+      }
+    }
+    &:last-child,&:first-child{
+      a{
+        color: $white;
+        background: #495b5b;
+        border:1px solid #495b5b;
+        }
+         
+        }
+  }
+
+  
+}

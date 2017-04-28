@@ -1,0 +1,72 @@
+/* title */
+<title "en">
+
+/*header*/
+<products "Products">
+<orderlist "Order List">
+<orderhistory "Order History">
+<wel "welcome,">
+
+/* footer */
+<download "Download Catalog">
+<copyright "© 2017 Rive France. All Rights Reserved.">
+<back "Back to rive-france.com">
+
+/*search*/
+<uppic "Upload Pic">
+<uplist "Upload List">
+<addorder "Add To Order List">
+
+/* login */
+<account "Account">
+<password "Password">
+<changepassword "Change Password">
+<clickchange "Change Password?">
+<signin "SIGN IN">
+
+/* productslist */
+<select "Select All">
+<proinfo "Product info.">
+<ref "Ref.">
+<details "Details">
+<stock "Stock">
+<price "Price">
+<quantity "Quantity">
+<add "Add">
+<selectall "Select All">
+
+/* orderlist */
+<process "Process">
+<dellist "Delete From List">
+<delout "Delete out-of-stock products">
+
+/* orderhistory */
+<name "Name">
+<qty "QTY">
+<propackage "Products in this package:">
+<tracking "Tracking NUM:">
+<ordernum "Order Num">
+<creattime "Creat Time">
+<erp "ERP Num">
+<verifued "Verifued Time">
+<status "Status">
+<total "Total Amount">
+<printorder "Print Order">
+<process "Process">
+
+/* orderdetail */
+<placeorder "Place Order">
+<saddress "Shipping Address">
+<baddress "Billing Address">
+<sdate "Expcted shipping date">
+<comment "Comment">
+<summary "Summary">
+<shipping "Shipping">
+<totalprice "Total price">
+<placeorder "Place Order">
+
+/* modal */
+<modaltitle "Beware">
+<modalbody "You will order out-of-stock products. This will only proceed to a reservation of the products. They will be delivered and invoiced only when in stock.">
+<cancel "CANCEL">
+<ok "OK">

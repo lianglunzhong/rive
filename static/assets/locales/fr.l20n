@@ -1,0 +1,149 @@
+/* title */
+<title "Rive B2B site">
+
+/*header*/
+<promotion "Promotion">
+<products "Produits">
+<orderlist "Panier">
+<orderhistory "Historique de commandes">
+<wel "Bienvenue,">
+<signout "Déconnexion">
+<signoutmodel "Voulez-vous vraiment quitter ?">
+<changepassword "Changer le mot de passe">
+<billingaddress "Adresse de facturation">
+<shippingaddress "Adresse de livraison">
+
+/* footer */
+<download "Télécharger le catalogue">
+<copyright "© 2017 Rive France Tous droits réservés.">
+<back "Retour à rive-france.com">
+
+/*search*/
+<createorderby "Créer commande par ">
+<uppic "image">
+<uplist "liste CSV">
+<addorder "ajouter au panier">
+<searchword "Search Word">
+<downtemplate "télécharger le template">
+<searchnotfound "Désolé, le produit que vous cherché n'a pas été trouvé.">
+
+
+/* login */
+<account "Compte">
+<password "Mot de passe">
+<oldpassword "Mot de passe">
+<newpassword "Nouveau mot de passe">
+<confirmpassword "Confirmez le nouveau mot de passe">
+<signin "CONNEXION">
+
+/* productslist */
+<select "Tout selectionner">
+<proinfo "Nom du produits">
+<ref "Ref.">
+<ref2 "Ref.: ">
+<price2 "Prix:">
+<productname2 "Nom du produits:">
+<details2 "Détails:">
+<details "Détails">
+<stock "Stock">
+<price "Prix">
+<quantity "Quantité">
+<qty "QTY">
+<add "Ajouter">
+<action "Action">
+<selectall "Tout selectionner">
+<choseditem "Produit(s) sélectionné(s):">
+<addsuccessmessage "Ajouté au panier avec succès.">
+<viewmore "Voir plus">
+<deliverydate "Date de livraison estimée:">
+<category "Catégorie">
+
+/* orderlist */
+<process "Valider">
+<outstock "Rupture de stock">
+<dellist "Supprimer de la liste">
+<delout "Supprimer les produits en rupture">
+<totalitems "Total produits:">
+<totalamount "Coût total:">
+<seleteproduct "Merci de selectionner vos produits!">
+<cannotaddqty "Le nombre de produits ne peut pas être inférieur à 1 !">
+<notorderlist "Vous n'avez aucun produits dans votre panier.">
+<outofstock "Désolé, le(s) produit(s) que vous avez demandé est temporairement en rupture. Cependant vous pouvez quand même le commander et notre service commercial vous contactera pour le délai de livraison.">
+
+
+/* orderhistory */
+<name "Name">
+<qty "QTY">
+<propackage "Products in this package:">
+<ordernum "NO.">
+<creattime "Date de création">
+<erp "No. ERP">
+<verifued "Date de vérification">
+<status "Statut">
+<total "Coût Total">
+<printorder "Imprimer commande">
+<process "Valider">
+<orderinformation "Information de commande">
+<erpnum "No. ERP:">
+<orderstatus "Statut:">
+<createtime2 "Date de création:">
+<creater "Créée par:">
+<sdate2 "Date d'envoi demandé:">
+<comment2 "Commentaire:">
+<productinfo "Product info.">
+<notorders "Vous n'avez pas de commande.">
+<ordercreated "Commande créée">
+<orderverity "Commande vérifiée">
+
+/* orderdetail */
+<placeorder "Commander">
+<saddress "Adresse de livraison">
+<baddress "Adresse de facturation">
+<sdate "Date d'envoi demandé">
+<comment "Commentaire">
+<summary "Sous-Total">
+<shipping "Frais de livraison">
+<tovalidate "A valider">
+<totalprice "PRIX TOTAL">
+<placeorder "Commander">
+<expctedshippingtips "Sous couvert de disponibilité des produits et de la validation de l'envoi par l'équipe commerciale.">
+<placeordertips "Le coût de votre demande n'inclue pas les frais de livraison. Nous allons étudier votre demande et revenir vers vous.">
+<shippriceinfor "Tous les prix son à but informatifs. Le coût total définitif vous sera indiqué dans votre confirmation de commande.">
+
+/* modal */
+<modaltitle "Attention">
+<modalbody "You will order out-of-stock products. This will only proceed to a reservation of the products. They will be delivered and invoiced only when in stock.">
+<cancel "ANNULER">
+<ok "OK">
+<delete "SUPPRIMER">
+<deleteonelist "Vous-vous vraiment supprimer ce(s) produit(s) ?">
+<deletealllist "Vous-vous vraiment supprimer ce(s) produit(s) ?">
+<deleteout "Vous-vous vraiment supprimer tous le(s) produit(s) en rupture ?">
+
+/* pakeagedetail */
+<trackingmethod "Tracking Method:">
+<trackingnum "Tracking NUM:">
+<trackinglink "Tracking Link:">
+
+
+/* address */
+<eidt "Editer">
+<setdefault "Par Défaut">
+<addaddress "Ajouté avec succès ">
+<editaddress "Edit Address">
+<shippingcountry "Pays de livraison:">
+<shippingstate "Etat/Province de livraison:">
+<shippingcity "Ville de livraison :">
+<shipping_address "Adresse de livraison:">
+<shippingzip "Zip/Code postal de livraison:">
+<shippingphone "Téléphone:">
+<shippingmobile "Mobile:">
+<billing_address "Adresse de facturation:">
+
+<billingcountry "Pays de facturation:">
+<billingstate "Etat/Province de facturation:">
+<billingcity "Ville de facturation:">
+<billingzip "Zip/Code postal de facturation:">
+<billingphone "Téléphone:">
+<billingmobile "Mobile:">
+

@@ -1,0 +1,37 @@
+@import "_base.scss";
+
+@import "libs/btn";
+@import "libs/pagination";
+@import "libs/forms";
+@import "libs/tables";
+
+// Components
+@import "libs/component-animations";
+@import "libs/dropdowns";
+@import "libs/input-groups";
+@import "libs/thumbnails";
+@import "libs/navs";
+@import "libs/badges";
+@import "libs/close"; 
+@import "libs/datetimepicker";
+@import "libs/popovers";
+
+
+// Components  JavaScript
+@import "libs/modals";
+
+
+@import "biz/footer/footer";
+@import "biz/header/header";
+
+
+@import "pages/index";
+@import "pages/search";
+@import "pages/orderhistory";
+@import "pages/print";
+@import "pages/slider";
+
+
+
+
+

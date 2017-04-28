@@ -1,0 +1,70 @@
+//
+// wanglong
+// --------------------------------------------------
+.p-box{
+	padding:20px;
+	.p-logo{
+		text-align: right;
+		img{
+			height: 45px;
+		}	
+	}
+	.form-horizontal{
+		.order-info{
+			overflow: hidden;
+			.col-xs-4,
+			.col-xs-8
+			{
+				padding:0px;
+				text-align: left;
+				font-weight: bold;
+				color:$gray-base;
+			}
+		}
+		.form-group{
+			margin-left:0px;
+			margin-right:0px;
+			margin-top: 5px;
+			.col-xs-4,
+			.col-xs-8
+			{
+				padding:0px;
+				text-align: left;
+			}
+		}
+		.control-label{
+			font-weight: normal;
+			color:#999999;
+		}
+		.form-control-static{
+			padding: 0px;
+			color:$gray-base;
+		}
+	}
+	.table{
+		margin-top: 30px;
+		th{
+			padding: 0px;
+			background-color: #f1f1f1;
+		}
+		.img-thumbnail{
+			max-height: 70px;
+    		border: 1px solid #ccc;
+		}
+	}
+	.order-play{
+		.pay{
+			padding: 20px 0 0 0;
+			li{
+			.label{
+				width: 70%;
+			}
+			.static{
+				width: 30%;
+			}
+			}
+		}
+		
+	}
+}
+

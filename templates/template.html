@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+    <link rel="shortcut icon" href="/static/assets/images/favicon.ico">
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/static/assets/css/pagination.css">
+    <!-- <script src="/static/assets/js/jquery.min.js"></script> -->
+    <script src="/static/assets/js/jquery-1.8.2.min.js"></script>
+    <script src="/static/assets/js/jquery.pagination.js"></script>
+    <script src="/static/assets/js/easySlider.js"></script>
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <script src="/static/assets/js/laydate.js"></script>
+    <script src="/static/assets/js/tooltip.js"></script>
+    <script src="/static/assets/js/popover.js"></script>
+    <!-- L20n setup -->
+    <script src="/static/assets/js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+      function setLang (lang) { 
+        $.cookie('lang', lang,  { path: '/' });
+        window.location.reload();
+      }
+      var lang = $.cookie('lang') || 'en-US';
+      document.write("<link rel='localization' href='/static/assets/locales/"+lang+".json'>");
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="/static/assets/js/l20n.js"></script>
+  </head>
+
+  <body style="padding-bottom: 109px;">
+      <header class="list-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-3">
+              <div class="logo"><a href="javascript:void(0)" style="cursor: default;"><img src="/static/assets/images/logo.png" alt=""></a></div>
+            </div>
+            <div class="col-xs-6">
+              <ul class="nav nav-pills" role="tablist">
+                {% if has_promotion %}
+                  <li role="presentation" class="{{ nav_promotion }}"><a href="{% url 'promotion' %}" data-l10n-id="promotion"></a></li>
+                {% endif %}
+                <li role="presentation" class="{{ nav_products }}"><a href="{% url 'products' %}" data-l10n-id="products"></a></li>
+                <li role="presentation" class="{{ nav_order_list }}" ><a href="{% url 'order_list' %}" data-l10n-id="orderlist"></a><span id="order_list_number" class="badge">{{ number }}</span></li>
+              <li role="presentation" class="{{ nav_order_history }}"><a href="{% url 'order_history' %}" data-l10n-id="orderhistory"></a></li>  
+              </ul>
+            </div>
+            <div class="col-xs-3 welcome">
+              <div class="drop-down cs-show">
+                <div class="drop-down-hd">
+                  <div class="flr" style="margin-right: 20px">{{ customer.firstname }}!</div> 
+                  <div class="flr mr10" data-l10n-id="wel"></div>
+                  <i class="fa fa-caret-down flr"></i>
+                </div>
+                <ul class="drop-down-list cs-list" style="width: 65%;right: 0px;top: 28px;">
+                  <li class="drop-down-option">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#sign_out_model" data-l10n-id="signout"></a>
+                  </li>
+                  <li class="drop-down-option">
+                    <a href="{% url 'billing_address' %}" data-l10n-id="billingaddress"></a>
+                  </li>
+                  <li class="drop-down-option">
+                    <a href="{% url 'customer_address' %}" data-l10n-id="shippingaddress"></a>
+                  </li> 
+                  <li class="drop-down-option">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#change_passwore_model" data-l10n-id="changepassword"></a>
+                  </li>                   
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      {% block content %}
+      {% endblock %}
+      
+      <footer class="footer">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              {% if not hidden_footer %}
+                <div class="country" style="margin-top:15px">
+                  <a onclick="setLang('nl')" href="javascript:void(0);" title="Dutch"><img src="/static/assets/images/NL.png" alt=""></a>
+                  <a onclick="setLang('fr')" href="javascript:void(0);" title="French"><img src="/static/assets/images/FR.jpg" alt=""></a>
+                  <a onclick="setLang('en-US')" href="javascript:void(0);" title="English"><img src="/static/assets/images/UK.jpg" alt=""></a>
+                  <a onclick="setLang('de')" href="javascript:void(0);" title="German"><img src="/static/assets/images/GE.jpg" alt=""></a>
+                  {% if currencies %}
+                    <form method="post" action="{% url 'currency_set' %}" style="display: inline-block;">
+                    {% csrf_token %}
+                      <input type="hidden" name="type" value="select_currency">
+                      <select class="currency" name="currency" onchange="select_currency()">
+                        {% for currency in currencies %}
+                          {% if currency.name == current_currency %}
+                            <option value="{{ currency.name }}" selected = "selected">{{ currency.name }}</option>
+                          {% else %}
+                            <option value="{{ currency.name }}">{{ currency.name }}</option>
+                          {% endif %}
+                        {% endfor %}
+                      </select>
+                      <button type="submit" style="display: none;" id="select_currency_btn">submit</button>
+                    </form>
+                  {% endif %}
+                </div>
+              {% endif %}
+              <div class="contant ft2">
+                <a class="under" href="http://www.rive-france.com/" data-l10n-id="back"></a>
+                <a class="download" href="http://rive-france.com/images/catalogue/catalogue-2017-sd.pdf" target="black" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer>
+    </div>
+    <!-- 修改密码弹窗 -->
+    <div class="modal fade" id="change_passwore_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width: 400px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+          </div>
+          <div class="modal-body" style="text-align: center;" id="change_password_success_content">
+            <form class="form-horizontal" role="form">
+              <div class="form-group">
+                <label class="col-xs-5 control-label" data-l10n-id="oldpassword"></label>
+                <div class="col-xs-7">
+                  <input type="password" id="old_password" style="height: 28px; margin-top: 6px;">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-5 control-label" data-l10n-id="newpassword"></label>
+                <div class="col-xs-7">
+                  <input type="password" id="new_password" style="height: 28px; margin-top: 6px;">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-5 control-label" data-l10n-id="confirmpassword"></label>
+                <div class="col-xs-7">
+                  <input type="password" id="comfirm_password" style="height: 28px; margin-top: 15px;">
+                </div>
+              </div>
+              <div class="form-group" id="change_password_error" style="display: none; text-align: left; margin-top: 15px; margin-left: 2px;">
+                <i class='fa fa-warning' style='color:#f00;'></i>&nbsp;&nbsp;
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer" id="change_password_error">
+            <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <button type="button" onclick="change_password_ok()" class="btn btn-primary btn-sm"><span data-l10n-id="ok"></span></button>
+          </div>
+          <div class="modal-footer" style="display: none;" id="change_password_success">
+            <button type="button" onclick="change_password_success_ok()" class="btn btn-primary btn-sm"><span data-l10n-id="ok"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 退出确认弹窗 -->
+    <div class="modal fade" id="sign_out_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 65%;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel" data-l10n-id="modaltitle"></h4>
+          </div>
+          <div class="modal-body" style="text-align: center;">
+            <p data-l10n-id="signoutmodel"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary btn-sm model" data-dismiss="modal" data-l10n-id="cancel"></button>
+            <a href="{% url 'logout' %}" class="btn btn-primary btn-sm"><span data-l10n-id="ok"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/static/assets/js/common.js"></script>
+  <script src="/static/assets/js/plugin.js"></script>
+  <script src="/static/assets/js/modal.js"></script>
+  <script type="text/javascript">
+    function change_password_ok() {
+      $.ajaxSetup({
+          data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+      });
+
+      var lang = $.cookie('lang') || 'en-US';
+      var success_message = '  Change password success.';
+      if(lang == 'fr') {
+        success_message = ' Mot de passe modifié avec succès.';
+      } 
+      if(lang == 'de') {
+        success_message = ' Passwort wurde geändert.';
+      }
+
+      var old_password = $("#old_password").val();
+      var new_password = $("#new_password").val();
+      var comfirm_password = $("#comfirm_password").val();
+
+      var dict = {};
+      dict['type'] = 'change_password';
+      dict['old_password'] = old_password;
+      dict['new_password'] = new_password;
+      dict['comfirm_password'] = comfirm_password;
+
+      $.ajax({
+        type: 'POST',
+        data: dict,
+        url: "{% url 'change_password_ajax' %}",
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+          if(data.error){
+            $("#change_password_error").html("<p><i class='fa fa-warning' style='color:#f00;'></i>&nbsp;&nbsp;"+data.error+"</p>");
+          $("#change_password_error").show();
+          };
+          if(data.success){
+            $("#change_password_success_content").html("<p><i class='fa fa-info-circle' style='color:#3f575b;'></i>  "+ success_message +"</p>");
+            $("#change_password_error").hide();
+            $("#change_password_success").show();
+          };
+        },
+        error: function(){
+          $("#change_password_error").html("<p><i class='fa fa-warning' style='color:#f00;'></i>&nbsp;&nbsp; Old and new passwords can not be empty.</p>");
+          $("#change_password_error").show();
+        },
+      });
+    };
+
+    function change_password_success_ok() {
+      window.location.reload();
+    };
+
+    //切换货币
+    function select_currency() {
+      //货币切换之后触发表单提交按钮
+      $("#select_currency_btn").click();
+    };
+  </script>
+  <script type="text/javascript">
+    // $(document).ready(function(){
+    //   $('img').error(function(){
+    //         alert(11111);
+    //         $(this).attr('src', "/static/assets/images/no_picture.png");
+    //      });
+    // });
+  </script>
+</html>

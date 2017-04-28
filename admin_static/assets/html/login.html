@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title data-l10n-id="title"></title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="../Rivelogo_B.ico" rel="shortcut icon" type="image/x-icon" />
+    <script src="../js/jquery-1.8.2.min.js"></script>
+    <!-- L20n setup -->
+    <script src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+    function setLang (lang) {
+      $.cookie('lang', lang)
+      window.location.reload()
+    }
+    var lang = $.cookie('lang') || 'en-US';
+    document.write("<link rel='localization' href='../locales/"+lang+".json'>")
+    </script>
+    <!-- Include the dist version of L20n -->
+    <script defer src="../js/l20n.js"></script>
+  </head>
+
+	<body class="login-bg">
+    <div>
+      <header>
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+              <div class="logo-sigin"><a href=""><img src="../images/logo.png" alt=""></a></div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-4 col-xs-offset-4">
+            <form class="loginform" role="form">
+              <div class="form-group">
+                <label class="form-title" data-l10n-id="account"></label>
+                <input type="text" class="form-control  l-control" name="email">
+              </div>
+              <div class="form-group">
+                <label class="form-title" data-l10n-id="password"></label>
+                <input type="password" class="form-control  l-control" name="password">
+              </div>
+              <div id="change_password" class="form-group hide">
+                <label class="form-title" data-l10n-id="changepassword"></label>
+                <input type="password" class="form-control  l-control" name="cpassword">
+              </div>
+              <div class="checkbox change">
+                <a href="javascript:void(0);" data-l10n-id="clickchange">
+                </a>
+              </div>
+              <button type="submit" class="btn btn-default btn-lg" data-l10n-id="signin"></button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <footer class="footer f-login">
+       <div class="container">
+          <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+              <div class="country">
+                <a onclick="setLang('en-US')" href="javascript:void(0);" title="en"><img src="../images/EN.jpg" alt=""></a>
+                <a onclick="setLang('fr')" href="javascript:void(0);"><img src="../images/FA.jpg" alt=""></a>
+                <a onclick="setLang('uk')" href="javascript:void(0);"><img src="../images/UK.jpg" alt=""></a>
+                <a onclick="setLang('de')" href="javascript:void(0);"><img src="../images/GE.jpg" alt=""></a>
+                <select class="currency">
+                  <option>EUR</option>
+                  <option>CHF</option>
+                  <option>USD</option>
+                  <option>GBP</option>>
+                </select>
+              </div>
+              <div class="contant">
+                <a class="under" href="" data-l10n-id="back"></a>
+                <a class="download" href="" ><i class="fa fa-download" aria-hidden="true"></i><span data-l10n-id="download"></span></a>
+              </div>
+              <div class="copyright" data-l10n-id="copyright"></div>
+            </div>
+          </div>
+        </div> 
+      </footer> 
+    </div>
+	</body>
+  <script src="../js/common.js"></script>
+  <script src="../js/plugin.js"></script>
+  <script>
+    $(".loginform").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 5,
+                maxlength:20
+            },
+            cpassword: {
+                required: true,
+                minlength: 5,
+                maxlength:20
+            }
+        },
+        messages: {
+            email:{
+                required:" Please provide an email.",
+                email:"Please enter a valid email address."
+            },
+            password: {
+                required: "Please provide a password.",
+                minlength: "Your password must be at least 5 characters long.",
+                maxlength: "The password exceeds maximum length of 20 characters."
+            },
+            cpassword: {
+                required: "Please provide a change password.",
+                minlength: "Your password must be at least 5 characters long.",
+                maxlength: "The password exceeds maximum length of 20 characters."
+            }
+        }
+
+    });
+  </script>
+</html>

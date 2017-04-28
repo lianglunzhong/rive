@@ -1,0 +1,32 @@
+// --------------------------------------------------
+// header
+// --------------------------------------------------
+.logo-sigin{ 
+	margin-top: 100px;
+	margin-bottom: 50px;	
+}
+.list-header{
+	height: 70px;
+	background-color: #334549;
+	.logo{
+		margin-top:11px;
+		img{
+			width: 140px;
+		}
+	}
+	.welcome{
+		color:$white;
+		margin-top:20px;
+		a{
+			color:$white;
+			.fa{
+				margin-left:30px;
+			}
+		}	
+	}
+
+}
+
+
+
+
